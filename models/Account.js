@@ -1,20 +1,18 @@
 module.exports = function(config, mongoose, nodemailer) {
   var crypto = require('crypto');
 
-  var Status = new mongoose.Schema({
-    name: {
-      first:   { type: String },
-      last:    { type: String }
-    },
-    status:    { type: String }
-  });
 
-  var Contact = new mongoose.Schema({
-    name: {
-      first:   { type: String },
-      last:    { type: String }
-    },
-    accountId: { type: mongoose.Schema.ObjectId },
+  var Wager = new mongoose.Schema({
+    authorId: { type: mongoose.Schema.ObjectId },
+    counterpartyId: { type: mongoose.Schema.ObjectId }, 
+    authorBet : { type: Number }, 
+    counterpartyBet : { type: Number }, 
+    wagerDescription: { type: String }, 
+    referenceIndex: { type: String }, 
+    counterpartyAccept: { type: Boolean }, 
+    authorValidation : { type: Boolean },  
+    counterpartyValidation: { type: Boolean },
+    winner: {type: mongoose.Schema.ObjectId },
     added:     { type: Date },     // When the contact was added
     updated:   { type: Date }      // When the contact last updated
   });
@@ -27,16 +25,8 @@ module.exports = function(config, mongoose, nodemailer) {
       last:    { type: String },
       full:    { type: String }
     },
-    birthday: {
-      day:     { type: Number, min: 1, max: 31, required: false },
-      month:   { type: Number, min: 1, max: 12, required: false },
-      year:    { type: Number }
-    },
-    photoUrl:  { type: String },
-    biography: { type: String },
-    contacts:  [Contact],
-    status:    [Status], // My own status updates only
-    activity:  [Status]  //  All status updates including friends
+    account_bal: { type: Number },       
+    wagers:  [Wager],
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -106,14 +96,20 @@ module.exports = function(config, mongoose, nodemailer) {
     });
   };
 
-  var addContact = function(account, addcontact) {
-    contact = {
-      name: addcontact.name,
-      accountId: addcontact._id,
+  
+
+  var addWager = function(account, addWager) {
+    wager = {
+      authorId: addWager._id, 
+      counterpartyId: addWager.counterpartyId, 
+      authorBet: addWager.authorBet, 
+      counterpartyBet: addWager.counterpartyBet, 
+      wagerDescription: addWager.wagerDescription, 
+      referenceIndex: addWager.referenceIndex, 
       added: new Date(),
       updated: new Date()
     };
-    account.contacts.push(contact);
+    account.wagers.push(wager);
 
     account.save(function (err) {
       if (err) {
@@ -122,17 +118,7 @@ module.exports = function(config, mongoose, nodemailer) {
     });
   };
 
-  var removeContact = function(account, contactId) {
-    if ( null == account.contacts ) return;
-
-    account.contacts.forEach(function(contact) {
-      if ( contact.accountId == contactId ) {
-        account.contacts.remove(contact);
-      }
-    });
-    account.save();
-  };
-
+ 
   var hasContact = function(account, contactId) {
     if ( null == account.contacts ) return false;
 
@@ -169,8 +155,7 @@ module.exports = function(config, mongoose, nodemailer) {
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     findByString: findByString,
-    addContact: addContact,
-    removeContact: removeContact,
+    //addWager: addWager, 
     login: login,
     Account: Account
   }
