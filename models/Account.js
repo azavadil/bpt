@@ -2,31 +2,33 @@ module.exports = function(config, mongoose, nodemailer) {
   var crypto = require('crypto');
 
 
-  var Wager = new mongoose.Schema({
+  var Bet = new mongoose.Schema({
     authorId: { type: mongoose.Schema.ObjectId },
     counterpartyId: { type: mongoose.Schema.ObjectId }, 
     authorBet : { type: Number }, 
     counterpartyBet : { type: Number }, 
-    wagerDescription: { type: String }, 
+    betDescription: { type: String }, 
     referenceIndex: { type: String }, 
+    terminationEvent: {type: String }, 
+    authorTeAccept: {type: Boolean }, 
+    counterpartyTeAccept: {type: Boolean}, 
     counterpartyAccept: { type: Boolean }, 
     authorValidation : { type: Boolean },  
     counterpartyValidation: { type: Boolean },
     winner: {type: mongoose.Schema.ObjectId },
-    added:     { type: Date },     // When the contact was added
-    updated:   { type: Date }      // When the contact last updated
+    added:     { type: Date },     // When the bet was added
+    updated:   { type: Date }      // When the bet last updated
   });
 
   var AccountSchema = new mongoose.Schema({
     email:     { type: String, unique: true },
     password:  { type: String },
-    name: {
-      first:   { type: String },
-      last:    { type: String },
-      full:    { type: String }
-    },
+    username: { type: String }, 
+    numCompleteBets : {type: Number }, 
+    numWinningBets : {type: Number }, 
+    winningPercentage : { type: Number }, 
     account_bal: { type: Number },       
-    wagers:  [Wager],
+    bets:  [Bet]
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -80,6 +82,10 @@ module.exports = function(config, mongoose, nodemailer) {
     });
   };
 
+  var allHandicappers = function( callback ){ 
+      Account.find({}, {"username": 1, "accountBal": 1, "winningPercentage": 1}); 
+  } 
+
   var findByString = function(searchStr, callback) {
     var searchRegex = new RegExp(searchStr, 'i');
     Account.find({
@@ -98,18 +104,19 @@ module.exports = function(config, mongoose, nodemailer) {
 
   
 
-  var addWager = function(account, addWager) {
-    wager = {
-      authorId: addWager._id, 
-      counterpartyId: addWager.counterpartyId, 
-      authorBet: addWager.authorBet, 
-      counterpartyBet: addWager.counterpartyBet, 
-      wagerDescription: addWager.wagerDescription, 
-      referenceIndex: addWager.referenceIndex, 
+  var addBet = function(account, addBet) {
+    bet = {
+      authorId: addBet._id, 
+      counterpartyId: addBet.counterpartyId, 
+      authorBet: addBet.authorBet, 
+      counterpartyBet: addBet.counterpartyBet, 
+      wagerDescription: addBet.wagerDescription, 
+      referenceIndex: addBet.referenceIndex,
+      terminationEvent: addBet.terminationEvent, 
       added: new Date(),
       updated: new Date()
     };
-    account.wagers.push(wager);
+    account.bets.push( bet );
 
     account.save(function (err) {
       if (err) {
@@ -130,18 +137,14 @@ module.exports = function(config, mongoose, nodemailer) {
     return false;
   };
 
-  var register = function(email, password, firstName, lastName) {
+  var register = function(email, password, username) {
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
 
     console.log('Registering ' + email);
     var user = new Account({
       email: email,
-      name: {
-        first: firstName,
-        last: lastName,
-        full: firstName + ' ' + lastName
-      },
+      username: username,
       password: shaSum.digest('hex')
     });
     user.save(registerCallback);
