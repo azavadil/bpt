@@ -2,7 +2,7 @@ var express     = require("express");
 var app         = express();
 var nodemailer  = require('nodemailer');
 var MemoryStore = require('connect').session.MemoryStore;
-var dbPath      = 'mongodb://localhost/nodebackbone';
+var dbPath      = 'mongodb://localhost/node_bpt';
 
 // Import the data layer
 var mongoose = require('mongoose');
