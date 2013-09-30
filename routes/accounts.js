@@ -11,7 +11,16 @@
 
 module.exports = function(app, models){ 
     
-
+    app.get('/accounts', function(req, res){
+	var accountId = req.params.id == 'me'
+            ? req.session.accountId
+            : req.params.id;
+	models.Account.allHandicappers( 0, function( account ) {
+	    res.send( account );
+	});
+    }); 
+	   
+	
 
     app.get('/accounts/:id/contacts', function(req, res) {
 	var accountId = req.params.id == 'me'
@@ -124,10 +133,7 @@ module.exports = function(app, models){
             ? req.session.accountId
             : req.params.id;
 	models.Account.findById(accountId, function(account) {
-	    if ( accountId == 'me' || models.Account.hasContact(account, req.session.accountId) ) {
-		account.isFriend = true;
-	    }
-	    res.send(account);
+	    res.send(account);  //POSSIBLE SECURITY BREACH
 	});
     });
 

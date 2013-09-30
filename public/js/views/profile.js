@@ -1,6 +1,6 @@
 define(['SocialNetView', 'text!templates/profile.html',
-        'text!templates/status.html', 'models/Status',
-        'views/status'],
+        'text!templates/bettor.html', 'models/Bettor',
+        'views/bettor'],
 function(SocialNetView,  profileTemplate,
          statusTemplate, Status, StatusView)
 {

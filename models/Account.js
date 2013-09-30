@@ -86,6 +86,15 @@ module.exports = function(config, mongoose, nodemailer) {
       Account.find({}, {"username": 1, "accountBal": 1, "winningPercentage": 1}); 
   } 
 
+  var findHandicappers = function( blockNumber, callback ){ 
+      var blockSize = 20; 
+      Account.find({}, {"username": 1, "accountBal": 1, "winningPercentage": 1})
+	  .limit(20)
+	  .skip(blockSize*blockNumber)
+	  .sort({"accountBal":-1}); 
+  }
+
+
   var findByString = function(searchStr, callback) {
     var searchRegex = new RegExp(searchStr, 'i');
     Account.find({
@@ -145,6 +154,10 @@ module.exports = function(config, mongoose, nodemailer) {
     var user = new Account({
       email: email,
       username: username,
+      numCompleteBets: 0, 
+      numWinningBets: 0, 
+      winningPercentage: 0, 
+      accountBal: 1000,
       password: shaSum.digest('hex')
     });
     user.save(registerCallback);
@@ -158,6 +171,7 @@ module.exports = function(config, mongoose, nodemailer) {
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     findByString: findByString,
+    findHandicappers: findHandicappers, 
     //addWager: addWager, 
     login: login,
     Account: Account
