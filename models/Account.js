@@ -171,7 +171,8 @@ module.exports = function(config, mongoose, nodemailer) {
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     findByString: findByString,
-    findHandicappers: findHandicappers, 
+    findHandicappers: findHandicappers,
+    allHandicappers: allHandicappers, 
     //addWager: addWager, 
     login: login,
     Account: Account

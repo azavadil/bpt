@@ -1,3 +1,9 @@
+/** 
+ * ~/public/js/views/index.js
+ * --------------------------
+ */
+
+
 define(['SocialNetView', 'text!templates/index.html'],
 function(SocialNetView, indexTemplate) {
   var indexView = SocialNetView.extend({

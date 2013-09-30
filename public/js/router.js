@@ -1,3 +1,9 @@
+/** 
+ * ~/public/js/router.js
+ * ---------------------
+ */
+
+
 define(['views/index', 'views/register', 'views/login',
         'views/forgotpassword', 'views/profile', 
 	'models/Account', 'models/BettorCollection'],
