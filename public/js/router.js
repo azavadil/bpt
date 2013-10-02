@@ -5,10 +5,10 @@
 
 
 define(['views/index', 'views/register', 'views/login',
-        'views/forgotpassword', 'views/profile', 
-	'models/Account', 'models/BettorCollection'],
+        'views/forgotpassword', 'views/profile','views/handicappers',  
+	'models/Account', 'models/Bettor', 'models/BettorCollection'],
 function(IndexView, RegisterView, LoginView, ForgotPasswordView, 
-	 ProfileView, Account, BettorCollection) {
+	 ProfileView, HandicapperListView, Account, Bettor, BettorCollection) {
   
 
     
@@ -16,11 +16,12 @@ var SocialRouter = Backbone.Router.extend({
     currentView: null,
 
     routes: {
-      'index': 'index',
-      'login': 'login',
-      'register': 'register',
-      'forgotpassword': 'forgotpassword',
-      'profile/:id': 'profile'
+	'index': 'index',
+	'login': 'login',
+	'register': 'register',
+	'bettors': 'bettors', 
+	'forgotpassword': 'forgotpassword',
+	'profile/:id': 'profile'
     },
 
     changeView: function(view) {
@@ -32,14 +33,16 @@ var SocialRouter = Backbone.Router.extend({
     },
 
     index: function() {
-      var bettorCollection = new BettorCollection();
-      bettorCollection.url = '/accounts';
-      this.changeView(new IndexView({
-        collection: bettorCollection
-      }));
-      bettorCollection.fetch();
+
+	this.changeView( new IndexView()); 
+
+
     },
 
+
+    bettors: function(){
+	this.changeView( new HandicapperListView() ); 
+    }, 
 
     login: function() {
       this.changeView(new LoginView());

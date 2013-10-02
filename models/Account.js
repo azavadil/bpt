@@ -27,7 +27,7 @@ module.exports = function(config, mongoose, nodemailer) {
     numCompleteBets : {type: Number }, 
     numWinningBets : {type: Number }, 
     winningPercentage : { type: Number }, 
-    account_bal: { type: Number },       
+    accountBal: { type: Number },       
     bets:  [Bet]
   });
 
@@ -82,17 +82,18 @@ module.exports = function(config, mongoose, nodemailer) {
     });
   };
 
-  var allHandicappers = function( callback ){ 
-      Account.find({}, {"username": 1, "accountBal": 1, "winningPercentage": 1}); 
-  } 
+  var allBettors = function( callback ){ 
+      Account.find({}, {"username": 1, "accountBal": 1, "winningPercentage": 1}).exec( callback ); 
+  } ;
 
-  var findHandicappers = function( blockNumber, callback ){ 
+  var find20Bettors = function( blockNumber, callback ){ 
       var blockSize = 20; 
       Account.find({}, {"username": 1, "accountBal": 1, "winningPercentage": 1})
 	  .limit(20)
 	  .skip(blockSize*blockNumber)
-	  .sort({"accountBal":-1}); 
-  }
+	  .sort({"accountBal":-1})
+	  .exec(callback); 
+  };
 
 
   var findByString = function(searchStr, callback) {
@@ -146,19 +147,19 @@ module.exports = function(config, mongoose, nodemailer) {
     return false;
   };
 
-  var register = function(email, password, username) {
+  var register = function(username, email, password) {
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
 
     console.log('Registering ' + email);
     var user = new Account({
-      email: email,
-      username: username,
-      numCompleteBets: 0, 
-      numWinningBets: 0, 
-      winningPercentage: 0, 
-      accountBal: 1000,
-      password: shaSum.digest('hex')
+	username: username,
+	email: email,
+	password: shaSum.digest('hex'),      
+	numCompleteBets: 0, 
+	numWinningBets: 0, 
+	winningPercentage: 0, 
+	accountBal: 1000
     });
     user.save(registerCallback);
     console.log('Save command was sent');
@@ -171,8 +172,8 @@ module.exports = function(config, mongoose, nodemailer) {
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     findByString: findByString,
-    findHandicappers: findHandicappers,
-    allHandicappers: allHandicappers, 
+    find20Bettors: find20Bettors,
+    allBettors: allBettors, 
     //addWager: addWager, 
     login: login,
     Account: Account

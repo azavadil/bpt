@@ -12,11 +12,16 @@
 module.exports = function(app, models){ 
     
     app.get('/accounts', function(req, res){
-	var accountId = req.params.id == 'me'
-            ? req.session.accountId
-            : req.params.id;
-	models.Account.allHandicappers( 0, function( account ) {
-	    res.send( account );
+	
+	console.log('~/routes/accounts.js | .get/accounts '); 
+
+	models.Account.allBettors( function( err, accounts ) {
+	    
+	    if(err) console.log('error querying the database'); 
+	    
+
+	    console.log('~/routes/accounts.js | accounts :' + accounts); 
+	    res.send( accounts );
 	});
     }); 
 	   

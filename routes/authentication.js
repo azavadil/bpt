@@ -34,8 +34,7 @@ module.exports = function(app, models){
     });
 
     app.post('/register', function(req, res) {
-	var firstName = req.param('firstName', '');
-	var lastName = req.param('lastName', '');
+	var username = req.param('username', '');
 	var email = req.param('email', null);
 	var password = req.param('password', null);
 
@@ -45,7 +44,7 @@ module.exports = function(app, models){
 	    return;
 	}
 
-	models.Account.register(email, password, firstName, lastName);
+	models.Account.register(username, email, password);
 	res.send(200);
     });
 
