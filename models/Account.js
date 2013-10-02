@@ -5,11 +5,11 @@ module.exports = function(config, mongoose, nodemailer) {
   var Bet = new mongoose.Schema({
     authorId: { type: mongoose.Schema.ObjectId },
     counterpartyId: { type: mongoose.Schema.ObjectId }, 
-    authorBet : { type: Number }, 
-    counterpartyBet : { type: Number }, 
     betDescription: { type: String }, 
     referenceIndex: { type: String }, 
     terminationEvent: {type: String }, 
+    authorBet : { type: Number }, 
+    counterpartyBet : { type: Number }, 
     authorTeAccept: {type: Boolean }, 
     counterpartyTeAccept: {type: Boolean}, 
     counterpartyAccept: { type: Boolean }, 
@@ -31,8 +31,10 @@ module.exports = function(config, mongoose, nodemailer) {
     bets:  [Bet]
   });
 
-  var Account = mongoose.model('Account', AccountSchema);
-
+    var Account = mongoose.model('Account', AccountSchema);
+    
+    
+    
   var registerCallback = function(err) {
     if (err) {
       return console.log(err);
@@ -164,6 +166,26 @@ module.exports = function(config, mongoose, nodemailer) {
     user.save(registerCallback);
     console.log('Save command was sent');
   };
+
+    var placebet = function(counterparty, betDescription, referenceIndex, 
+			    terminationEvent, authorBet, counterpartyBet){
+
+	
+	//look up authorId
+	//look up counterpartyId
+
+	var bet = new Bet({
+	    authorId:  //
+	    counterpartyId: 
+	    referenceIndex:
+	    termintionEvent: 
+	    authorBet: 
+	    counterpartyBet: 
+	    added: new Date(), 
+	    updated: new Date()
+	}; 
+
+			  
 
   return {
     findById: findById,
