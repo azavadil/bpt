@@ -3,21 +3,21 @@ module.exports = function(config, mongoose, nodemailer) {
 
 
   var Bet = new mongoose.Schema({
-    authorId: { type: mongoose.Schema.ObjectId },
-    counterpartyId: { type: mongoose.Schema.ObjectId }, 
-    betDescription: { type: String }, 
-    referenceIndex: { type: String }, 
-    terminationEvent: {type: String }, 
-    authorBet : { type: Number }, 
-    counterpartyBet : { type: Number }, 
-    authorTeAccept: {type: Boolean }, 
-    counterpartyTeAccept: {type: Boolean}, 
-    counterpartyAccept: { type: Boolean }, 
-    authorValidation : { type: Boolean },  
-    counterpartyValidation: { type: Boolean },
-    winner: {type: mongoose.Schema.ObjectId },
-    added:     { type: Date },     // When the bet was added
-    updated:   { type: Date }      // When the bet last updated
+      authorId: { type: mongoose.Schema.ObjectId },
+      counterpartyId: { type: mongoose.Schema.ObjectId }, 
+      betDescription: { type: String }, 
+      referenceIndex: { type: String }, 
+      terminationEvent: {type: String }, 
+      authorBet : { type: Number }, 
+      counterpartyBet : { type: Number }, 
+      counterpartyAccept: { type: Boolean }, 
+      authorTeAccept: {type: Boolean }, 
+      counterpartyTeAccept: {type: Boolean}, 
+      authorValidation : { type: Boolean },  
+      counterpartyValidation: { type: Boolean },
+      winner: {type: mongoose.Schema.ObjectId },
+      added:     { type: Date },     // When the bet was added
+      updated:   { type: Date }      // When the bet last updated
   });
 
   var AccountSchema = new mongoose.Schema({
@@ -167,23 +167,30 @@ module.exports = function(config, mongoose, nodemailer) {
     console.log('Save command was sent');
   };
 
-    var placebet = function(counterparty, betDescription, referenceIndex, 
-			    terminationEvent, authorBet, counterpartyBet){
+    var placeBet = function(account, betDetails){
 
-	
-	//look up authorId
-	//look up counterpartyId
 
-	var bet = new Bet({
-	    authorId:  //
-	    counterpartyId: 
-	    referenceIndex:
-	    termintionEvent: 
-	    authorBet: 
-	    counterpartyBet: 
+	var bet = {
+	    authorId: betDetails.authorId, 
+	    counterpartyId: betDetails.counterpartyId,
+	    betDescription: betDetails.betDescription, 
+	    referenceIndex: betDetails.referenceIndex, 
+	    termintionEvent: betDetails.terminationEvent, 
+	    authorBet: betDetails.authorBet, 
+	    counterpartyBet: betDetails.counterpartyBet, 
+	    counterpartyAccept: false, 
 	    added: new Date(), 
 	    updated: new Date()
 	}; 
+
+	account.bets.push(bet); 
+	account.save(function(err){
+	    if(err){
+		console.log('Error saving bet: ' + err); 
+	    }
+	}); 
+    }; 
+		    
 
 			  
 
@@ -196,6 +203,7 @@ module.exports = function(config, mongoose, nodemailer) {
     findByString: findByString,
     find20Bettors: find20Bettors,
     allBettors: allBettors, 
+    placeBet: placeBet, 
     //addWager: addWager, 
     login: login,
     Account: Account
