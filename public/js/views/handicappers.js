@@ -12,35 +12,33 @@ function( Handicappers, hndListTemplate) {
 
     var handicappersView = Backbone.View.extend({
       
-      el: $('#content'),
+
+	tagName: 'div', 
+
+ 
 
       	
-      render: function() {
+	render: function() {
 
-	  console.log('~/public/js/views/handicappers.js | render'); 
+	    console.log('~/public/js/views/handicappers.js | render'); 
 	  
-
-
-	  var that = this; 
-	  var handicappers = new Handicappers(); 
-
+	    var that = this; 
+	    var handicappers = new Handicappers(); 
 	  
-	
-
-	  handicappers.fetch( { 
-	      success: function( handicappers ) { 
+	    handicappers.fetch( { 
+		success: function( handicappers ) { 
 		  
-		  var template = _.template(hndListTemplate, {handicappers: handicappers.models} ); 
-		
-		  that.$el.html(template); 
-	      }
-	  });
+		    var template = _.template(hndListTemplate, {handicappers: handicappers.models} ); 
+		    
+		    that.$el.html(template); 
+		}
+	    });
+
+	    return this; 
+	}
 
 
-      }
-
-
-  });
+    });
 
   return handicappersView;
 });

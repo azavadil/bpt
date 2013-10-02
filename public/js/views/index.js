@@ -6,7 +6,7 @@
 
 define(['SocialNetView', 
 	'models/HandicapperCollection',
-	'views/handicappersSubview', 
+	'views/handicappers', 
 	'text!templates/index.html'],
 function(SocialNetView, 
 	 HandicapperCollection, 
