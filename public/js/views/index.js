@@ -4,8 +4,14 @@
  */
 
 
-define(['SocialNetView', 'models/HandicapperCollection', 'text!templates/index.html'],
-function(SocialNetView, HandicapperCollection, indexTemplate) {
+define(['SocialNetView', 
+	'models/HandicapperCollection',
+	'views/handicappersSubview', 
+	'text!templates/index.html'],
+function(SocialNetView, 
+	 HandicapperCollection, 
+	 HandicappersView, 
+	 indexTemplate) {
   
     var indexView = SocialNetView.extend({
 	el: $('#content'),
@@ -34,7 +40,10 @@ function(SocialNetView, HandicapperCollection, indexTemplate) {
 	}, 
     
 	render: function() {
-	    this.$el.html(indexTemplate); 
+	    this.$el.html(indexTemplate);
+
+	    var hndListHtml = (new HandicappersView()).render().el; 
+	    $(hndListHtml).appendTo('.bettors_list').hide().fadeIn('slow'); 
 	}
     });
 

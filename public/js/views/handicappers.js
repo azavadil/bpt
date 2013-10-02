@@ -14,6 +14,7 @@ function( Handicappers, hndListTemplate) {
       
       el: $('#content'),
 
+      	
       render: function() {
 
 	  console.log('~/public/js/views/handicappers.js | render'); 
@@ -24,27 +25,11 @@ function( Handicappers, hndListTemplate) {
 	  var handicappers = new Handicappers(); 
 
 	  
-	  /*
-	  handicappers.fetch( { 
-	      success: function( handicappers ){ 
-		  that.$el.html('CONTENT SHOULD BE HERE'); 
-	      }
-	  }); 
-
-	  */
-
+	
 
 	  handicappers.fetch( { 
 	      success: function( handicappers ) { 
 		  
-
-		  
-		  //handicappers.forEach( function(elem, index, array){ 
-		  //    console.log('~/public/js/views/handicappers.js | render: ' + elem);
-		  //} 
-		  console.log('~/public/js/views/handicappers.js | render | .fetch | success ' + handicappers.models); 
-		  
-
 		  var template = _.template(hndListTemplate, {handicappers: handicappers.models} ); 
 		
 		  that.$el.html(template); 
