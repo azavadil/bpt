@@ -1,0 +1,49 @@
+<h1>Place Bet</h1>
+
+<form>
+<fieldset>
+<legend>Bet details</legend>
+  <label>
+    Counterparty username:
+    <input type="text" name="counterparty" />
+  </label>
+
+  <label>
+    Bet Description:
+    <input type="text" name="description" />
+  </label>
+
+  <label>
+    Reference index (include a clearly defined reference index that can be use to settle disputes):
+    <input type="text" name="refIndex" />
+  </label>
+
+  <label>
+    Termination Events (include a comma separated list of events that terminate the bet with no injury. E.g. player injury):
+    <input type="text" name="refIndex" />
+  </label>
+
+</fieldset>
+
+<fieldset>
+
+  <legend>Bet Amount($)</legend>
+
+  <label>
+    Amount you win:
+    <input type="text" name="thisBet" />
+  </label>
+
+  <br />
+
+  <label>
+    Amount you lose:
+    <input type="text" name="counterpartyBet" />
+  </label>
+</fieldset>
+
+
+<p>
+  <input type="submit" value="Place Bet Now"/>
+</p>
+</form>
