@@ -22,12 +22,24 @@ module.exports = function(app, models){
 	var counterpartyBet = req.param('counterpartyBet', null); 
 
 
+	console.log(counterparty + ", " + 
+		    betDescription + ", " +
+		    referenceIndex + ", " + 
+		    terminationEvent + ", " + 
+		    authorBet + ", " + 
+		    counterpartyBet); 
+		    
+
+
+
 	if ( null == counterparty || counterparty.length < 1
 	     || null == betDescription || betDescription.length < 1 
 	     || null == referenceIndex || referenceIndex.length < 1
 	     || null == authorBet || authorBet.length < 1
 	     || null == counterpartyBet || couterpartyBet.length < 1 ) 
 	{
+	    
+	    console.log('~/routes/betting.js | bad form'); 
 	    res.send(400);
 	    return;
 	}
