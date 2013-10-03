@@ -21,9 +21,9 @@ module.exports = function(config, mongoose, nodemailer) {
   });
 
   var AccountSchema = new mongoose.Schema({
-    email:     { type: String, unique: true },
+    email:     { type: String },
     password:  { type: String },
-    username: { type: String }, 
+    username: { type: String, unique: true }, 
     numCompleteBets : {type: Number }, 
     numWinningBets : {type: Number }, 
     winningPercentage : { type: Number }, 
@@ -98,15 +98,35 @@ module.exports = function(config, mongoose, nodemailer) {
   };
 
 
-  var findByString = function(searchStr, callback) {
-   
-    Account.findOne( { username: searchStr }, function(err, doc ){ 
-	if( err ) {
-	    console.log('error looking up name'); 
-	} else { 
-	   // code here callback
+    var findByString = function(searchStr, callback) {
+	
+	Account.findOne( { username: searchStr }, function(err, doc ){ 
+	    if( err ) {
+		console.log('error looking up name'); 
+	    } else { 
+		// code here callback
+	    }
 	});
-  };
+    };
+
+    var findCounterparty = function(searchStr, callback){
+
+
+	Account.findOne({ username: searchStr}, function( err, doc ){
+	    
+	    console.log('~/models/Account.js err ' + err + ', doc: ' + doc + ', searchStr: ' + searchStr); 
+
+	    
+	    if( err ){ 
+		console.log('~/models/Account.js | error looking up name');
+		callback( false );
+	    } else { 
+		console.log('~/models/Account.js | name found ' + doc);
+		callback(doc); 
+	    }
+	}); 
+    }; 
+
 
   var findById = function(accountId, callback) {
     Account.findOne({_id:accountId}, function(err,doc) {
@@ -196,6 +216,7 @@ module.exports = function(config, mongoose, nodemailer) {
 
   return {
     findById: findById,
+    findCounterparty: findCounterparty, 
     register: register,
     hasContact: hasContact,
     forgotPassword: forgotPassword,

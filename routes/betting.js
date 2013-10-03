@@ -44,12 +44,17 @@ module.exports = function(app, models){
 	    return;
 	}
 
-	models.Account.findByString( counterparty, function onSearchDone( err, cpAccount ){ 
-	    if( err || cpAccount.length != 1 ){
+	models.Account.findCounterparty( counterparty, function onSearchDone( cpAccount ){ 
+	    
+		    
+	    if( !cpAccount ){
+
 		console.log('~/routes/betting.js | bad counterparty'); 
 		res.send( 404 ); 
+
 	    } else { 
-		console.log('~/routes/betting.js | findByString' + account._id); 
+
+		console.log('~/routes/betting.js | findById' + accountId); 
 		
 		models.Account.findById( accountId, function( account ) { 
 		    

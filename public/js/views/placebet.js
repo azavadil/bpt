@@ -27,7 +27,7 @@ define(['SocialNetView',
 			     $responseArea.text('Bet Placed'); 
 			      }).error(function(){
 				  $responseArea.text('Bet not placed'); 
-				  $responeArea.slideDown(); 
+				  $responseArea.slideDown(); 
 			      }); 
 		   
 		   
