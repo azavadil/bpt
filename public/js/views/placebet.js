@@ -15,6 +15,33 @@ define(['SocialNetView',
 	       },
 
 	       placebet: function() {
+		   
+		   
+		   console.log('~/public/js/views/placebet.js | placebet'); 
+		   var $responseArea = this.$('#actionArea'); 
+
+		   var view = this; 
+		   
+		   $.post('/placebet', 
+			  this.$('form').serialize(), function( ){ 
+			     $responseArea.text('Bet Placed'); 
+			      }).error(function(){
+				  $responseArea.text('Bet not placed'); 
+				  $responeArea.slideDown(); 
+			      }); 
+		   
+
+		   
+
+		   
+
+
+
+
+
+		   /*
+
+
 		   $.post('/placebet', {
 		       counterparty: $('input[name=counterparty]').val(),
 		       betDescription: $('input[name=betDescription]').val(),
@@ -23,11 +50,17 @@ define(['SocialNetView',
 		       authorBet: $('input[name=authorBet]').val(), 
 		       counterpartyBet: $('input[name=counterpartyBet]').val()
 		       
-		   }, function(data) {
+		   }, function onSuccess( data ) {
 		       console.log(data);
-		       window.location.hash = 'index';  //profile is probably betterdd
+		       $responseArea.text('Bet Placed'); 
+		   }, function onError() {
+		       console.log('~/public/js/views/placebet.js | onError'); 
+		       $responseArea.text('Could not place bet'); 
 		   });
-		   return false;
+		   */
+		   
+		   
+		   return false; 
 	       },
 
 	       render: function() {

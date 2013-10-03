@@ -13,14 +13,10 @@ module.exports = function(app, models){
     
     app.get('/accounts', function(req, res){
 	
-	console.log('~/routes/accounts.js | .get/accounts '); 
-
 	models.Account.allBettors( function( err, accounts ) {
 	    
 	    if(err) console.log('error querying the database'); 
 	    
-
-	    console.log('~/routes/accounts.js | accounts :' + accounts); 
 	    res.send( accounts );
 	});
     }); 

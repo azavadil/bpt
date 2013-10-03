@@ -9,17 +9,13 @@
 
      <% _.each(handicappers, function( handicapper ) { %>
 	
-<!--	<td>Content</td>
-        <td>Should</td>
-        <td>Be</td>
-        <td><a class="btn" href="#/account">Full Player Profile</a></td>
--->
 
-
+     <tr> 
 	<td><%= handicapper.get('username') %></td>
         <td><%= handicapper.get('accountBal') %></td>
         <td><%= handicapper.get('winningPercentage') %></td>
         <td><a class="btn" href="#/account/<%= handicapper.id %>">Full Player Profile</a></td>
+     </tr>
     <% }); %>
   </tbody>
 </table>

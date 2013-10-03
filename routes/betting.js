@@ -36,7 +36,7 @@ module.exports = function(app, models){
 	     || null == betDescription || betDescription.length < 1 
 	     || null == referenceIndex || referenceIndex.length < 1
 	     || null == authorBet || authorBet.length < 1
-	     || null == counterpartyBet || couterpartyBet.length < 1 ) 
+	     || null == counterpartyBet || counterpartyBet.length < 1 ) 
 	{
 	    
 	    console.log('~/routes/betting.js | bad form'); 
@@ -45,7 +45,8 @@ module.exports = function(app, models){
 	}
 
 	models.Account.findByString( counterparty, function onSearchDone( err, cpAccount ){ 
-	    if( err || cpAccount.length != 1 ){ 
+	    if( err || cpAccount.length != 1 ){
+		console.log('~/routes/betting.js | bad counterparty'); 
 		res.send( 404 ); 
 	    } else { 
 		console.log('~/routes/betting.js | findByString' + account._id); 
