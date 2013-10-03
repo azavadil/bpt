@@ -41,12 +41,12 @@ module.exports = function(app, models){
 	});
     });
 
-    app.get('/accounts/:id/status', function(req, res) {
+    app.get('/accounts/:id/bets', function(req, res) {
 	var accountId = req.params.id == 'me'
             ? req.session.accountId
             : req.params.id;
 	models.Account.findById(accountId, function(account) {
-	    res.send(account.status);
+	    res.send(account.bets);
 	});
     });
 

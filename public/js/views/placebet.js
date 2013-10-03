@@ -24,7 +24,7 @@ define(['SocialNetView',
 		   
 		   $.post('/placebet', 
 			  this.$('form').serialize(), function( ){ 
-			     $responseArea.text('Bet Placed'); 
+			     $responseArea.text('Bet placed, waiting for counterparty to accept'); 
 			      }).error(function(){
 				  $responseArea.text('Bet not placed'); 
 				  $responseArea.slideDown(); 
