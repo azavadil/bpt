@@ -54,17 +54,16 @@ module.exports = function(app, models){
 
 	    } else { 
 
-		console.log('~/routes/betting.js | findById' + accountId); 
+		console.log('~/routes/betting.js | findById | accountId: ' + accountId);
+		console.log('~/routes/betting.js | findById | cpAccountId: ' + cpAccount._id); 
 		
 		models.Account.findById( accountId, function( account ) { 
 		    
-		    var counterpartyId = cpAccount._id; 
-
 		    //need to notify counterparty, should be real time
 		    
 		    var betProperties = { 
-			accountId: accountId, 
-			conterpartyId: counterpartyId,  
+			authorId: account._id,  
+			counterpartyId: cpAccount._id,  
 			betDescription: betDescription, 
 			referenceIndex: referenceIndex, 
 			terminationEvent: terminationEvent, 

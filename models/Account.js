@@ -3,8 +3,8 @@ module.exports = function(config, mongoose, nodemailer) {
 
 
   var Bet = new mongoose.Schema({
-      authorId: { type: mongoose.Schema.ObjectId },
-      counterpartyId: { type: mongoose.Schema.ObjectId }, 
+      authorId: { type: mongoose.Schema.Types.ObjectId },
+      counterpartyId: { type: mongoose.Schema.Types.ObjectId }, 
       betDescription: { type: String }, 
       referenceIndex: { type: String }, 
       terminationEvent: {type: String }, 
@@ -106,7 +106,7 @@ module.exports = function(config, mongoose, nodemailer) {
 	    } else { 
 		// code here callback
 	    }
-	});
+j	});
     };
 
     var findCounterparty = function(searchStr, callback){
@@ -114,14 +114,12 @@ module.exports = function(config, mongoose, nodemailer) {
 
 	Account.findOne({ username: searchStr}, function( err, doc ){
 	    
-	    console.log('~/models/Account.js err ' + err + ', doc: ' + doc + ', searchStr: ' + searchStr); 
-
 	    
 	    if( err ){ 
 		console.log('~/models/Account.js | error looking up name');
 		callback( false );
 	    } else { 
-		console.log('~/models/Account.js | name found ' + doc);
+		
 		callback(doc); 
 	    }
 	}); 
@@ -138,7 +136,7 @@ module.exports = function(config, mongoose, nodemailer) {
 
   var addBet = function(account, addBet) {
     bet = {
-      authorId: addBet._id, 
+      authorId: addBet.accountId, 
       counterpartyId: addBet.counterpartyId, 
       authorBet: addBet.authorBet, 
       counterpartyBet: addBet.counterpartyBet, 
@@ -189,7 +187,8 @@ module.exports = function(config, mongoose, nodemailer) {
 
     var placeBet = function(account, betDetails){
 
-
+	console.log('~/models/Account.js | placebet | authorId'); 
+	
 	var bet = {
 	    authorId: betDetails.authorId, 
 	    counterpartyId: betDetails.counterpartyId,
