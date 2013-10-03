@@ -69,11 +69,12 @@ module.exports = function(app, models){
 		    
 		    models.Account.placeBet(account, betProperties);
 		    models.Account.placeBet(cpAccount, betProperties); 
+		    res.send(200);
 		}); 
 	    }
 	}); 
 
-	res.send(200);
+	
     });
 
  

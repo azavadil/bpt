@@ -99,13 +99,9 @@ module.exports = function(config, mongoose, nodemailer) {
 
 
   var findByString = function(searchStr, callback) {
-    var searchRegex = new RegExp(searchStr, 'i');
-    Account.find({
-      $or: [
-        { 'name.full': { $regex: searchRegex } },
-        { email:       { $regex: searchRegex } }
-      ]
-    }, callback);
+   
+    Account.find({ username: searchStr }, 
+		 callback);
   };
 
   var findById = function(accountId, callback) {
