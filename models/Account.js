@@ -100,8 +100,12 @@ module.exports = function(config, mongoose, nodemailer) {
 
   var findByString = function(searchStr, callback) {
    
-    Account.find({ username: searchStr }, 
-		 callback);
+    Account.findOne( { username: searchStr }, function(err, doc ){ 
+	if( err ) {
+	    console.log('error looking up name'); 
+	} else { 
+	   // code here callback
+	});
   };
 
   var findById = function(accountId, callback) {
