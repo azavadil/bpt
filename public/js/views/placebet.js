@@ -16,11 +16,11 @@ define(['SocialNetView',
 
 	       placebet: function() {
 		   $.post('/placebet', {
-		       username: $('input[name=counterparty]').val(),
-		       betDescription: $('input[name=description]').val(),
-		       referenceIndex: $('input[name=refIndex').val(), 
+		       counterparty: $('input[name=counterparty]').val(),
+		       betDescription: $('input[name=betDescription]').val(),
+		       referenceIndex: $('input[name=referenceIndex').val(), 
 		       terminationEvent: $('input[name=terminationEvent]').val(),
-		       authorBet: $('input[name=thisBet]').val(), 
+		       authorBet: $('input[name=authorBet]').val(), 
 		       counterpartyBet: $('input[name=counterpartyBet]').val()
 		       
 		   }, function(data) {
