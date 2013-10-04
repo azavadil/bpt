@@ -64,6 +64,8 @@ module.exports = function(app, models){
 		    var betProperties = { 
 			authorId: account._id,  
 			counterpartyId: cpAccount._id,  
+			authorName: account.username, 
+			counterpartyName: cpAccount.username, 
 			betDescription: betDescription, 
 			referenceIndex: referenceIndex, 
 			terminationEvent: terminationEvent, 

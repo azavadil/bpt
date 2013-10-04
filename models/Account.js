@@ -4,7 +4,9 @@ module.exports = function(config, mongoose, nodemailer) {
 
   var Bet = new mongoose.Schema({
       authorId: { type: mongoose.Schema.Types.ObjectId },
-      counterpartyId: { type: mongoose.Schema.Types.ObjectId }, 
+      counterpartyId: { type: mongoose.Schema.Types.ObjectId },
+      authorName: { type: String }, 
+      counterpartyName: { type: String }, 
       betDescription: { type: String }, 
       referenceIndex: { type: String }, 
       terminationEvent: {type: String }, 
@@ -192,6 +194,8 @@ j	});
 	var bet = {
 	    authorId: betDetails.authorId, 
 	    counterpartyId: betDetails.counterpartyId,
+	    authorName: betDetails.authorName, 
+	    counterpartyName: betDetails.counterpartyName, 
 	    betDescription: betDetails.betDescription, 
 	    referenceIndex: betDetails.referenceIndex, 
 	    termintionEvent: betDetails.terminationEvent, 
