@@ -1,13 +1,13 @@
 define(['SocialNetView', 
 	'text!templates/profile.html',
-        'text!templates/bet.html', 
+        'text!templates/betTable.html', 
 	'models/Bet',
-        'views/bet'],
+        'views/betTable'],
 function(SocialNetView, 
 	 profileTemplate,
-         betTemplate, 
+         betTableTemplate, 
 	 Bet, 
-	 BetView)
+	 BetTableView)
        {
 	   var profileView = SocialNetView.extend({
 	       
@@ -21,18 +21,14 @@ function(SocialNetView,
 		   this.model.bind('change', this.render, this);
 	       },
 
-	       prependBet: function( betModel ){ 
-		   var betHtml = (new BetView({model: betModel})).render().el; 
-		   $(betHtml).appendTo('.bet_list').hide().fadeIn('slow'); 
-	       }, 
 
  
 	       render: function() {
 
 		   var that = this;
-
-		   console.log('~/public/js/views/profileView | render | model.toJSON(): ' + this.model.toJSON()); 
-
+		   
+		   var modelJson = this.model.toJSON(); 
+		   
 
 		   this.$el.html(
 		       _.template(profileTemplate,this.model.toJSON())
@@ -40,12 +36,14 @@ function(SocialNetView,
 		   
 		   
 		   var betCollection = this.model.get('bets');
-		   if ( null != betCollection ) {
-		       _.each(betCollection, function ( betJson ) {
-			   var betModel = new Bet( betJson) ;
-			   that.prependBet( betModel );
-		       });
-		   }
+
+		   console.log('~/public/js/views/profileView | render | betCollection: ' + betCollection.toString()); 
+
+
+		   var betTableHtml = (new BetTableView( {collection: betCollection} )).render().el; 
+		   
+		   $(betTableHtml).appendTo('#pendingBetList'); 
+
 		   
 	       }
 	   });

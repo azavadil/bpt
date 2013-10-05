@@ -4,13 +4,26 @@
  */
 
 
-define(['views/index', 'views/register', 'views/login',
-        'views/forgotpassword', 'views/profile',
-	'views/handicappers', 'views/placebet', 
-	'models/Account', 'models/Bettor', 
+define(['views/index', 
+	'views/register', 
+	'views/login',
+        'views/forgotpassword', 
+	'views/profile',
+	'views/handicappers', 
+	'views/placebet', 
+	'models/Account', 
+	'models/Bettor', 
 	'models/BettorCollection'],
-function(IndexView, RegisterView, LoginView, ForgotPasswordView, 
-	 ProfileView, HandicapperListView, PlacebetView, Account, Bettor, BettorCollection) {
+function(IndexView, 
+	 RegisterView, 
+	 LoginView, 
+	 ForgotPasswordView, 
+	 ProfileView, 
+	 HandicapperListView, 
+	 PlacebetView, 
+	 Account, 
+	 Bettor, 
+	 BettorCollection) {
   
 
     
@@ -57,9 +70,12 @@ var SocialRouter = Backbone.Router.extend({
     },
 
     profile: function(id) {
-      var model = new Account({id:id});
-      this.changeView(new ProfileView({model:model}));
-      model.fetch();
+	console.log('~/public/js/router.js | profile | id: ' + id); 
+
+	var model = new Account({id:id});
+	model.fetch();
+	this.changeView(new ProfileView({model:model}));
+
     },
     
     placebet: function(){
