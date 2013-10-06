@@ -76,10 +76,10 @@ var SocialRouter = Backbone.Router.extend({
     },
 
     profile: function(id) {
-	console.log('~/public/js/router.js | profile | id: ' + id); 
 
 	var model = new Account({id:id});
-	model.fetch();
+	model.fetch({ success: function(){ console.log('~/public/js/router.js | profile | username: ' + model.get('username')); }} );
+
 	this.changeView(new ProfileView({model:model}));
 
     },
@@ -96,13 +96,17 @@ var SocialRouter = Backbone.Router.extend({
     bets: function(id) { 
 
 	
-	var model = new Bet({id:id}); 
+	var betModel = new Bet({id:id}); 
 
-	model.fetch(); 
+	betModel.fetch( { 
+	    success: function(){  
+		    
+		console.log('~/public/js/router.js | bet | : ' + betModel.get('authorname') ); 
+		
+	    }
+	}); 
 
-	console.log('~/public/js/router.js | bet | id: ' + model.get('authorName')); 
-
-	this.changeView(new BetView({model: model})); 
+	this.changeView(new BetView({model: betModel})); 
     }, 
 
 
