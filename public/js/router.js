@@ -97,18 +97,18 @@ var SocialRouter = Backbone.Router.extend({
     
     bets: function(id) { 
 
-	
+	var that = this; 
 	var betModel = new Bet({id:id}); 
 
 	betModel.fetch( { 
 	    success: function(){  
 		    
-		console.log('~/public/js/router.js | bet | : ' + betModel.get('authorName') ); 
-		
+
+		that.changeView(new BetView( {model: betModel} )); 
 	    }
 	}); 
 
-	this.changeView(new BetView({model: betModel})); 
+	
     }, 
 
 

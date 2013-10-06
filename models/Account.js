@@ -143,9 +143,9 @@ j	});
 
 	    var betArray = betDoc.bets; 
 
-	    var matchingBet = betArray.filter(function( item, index, array ) { return item._id.toString() === betId; }); 
+	    var matchingBetArr = betArray.filter(function( item, index, array ) { return item._id.toString() === betId; }); 
 
-	    callback( matchingBet );
+	    callback( matchingBetArr[0] );
 	});
     };
 

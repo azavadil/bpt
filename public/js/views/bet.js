@@ -8,11 +8,23 @@ define(['SocialNetView',
 
 	       
 	       render: function(){
-
-		   console.log('~/public/js/views/bet.js | render | model: ' + this.model.get('authorName')); 
+		   
+		   console.log('~/public/js/views/bet.js | render | model: ' + this.model); 
 
 		   $(this.el).html(_.template(betTemplate, this.model.toJSON())); 
-		   return this; 
+		   
+
+		   /*
+		   model.fetch({ 
+		       success: function(){ 
+
+			   console.log('~/public/js/views/bet.js | render | model: ' + this.model.get('authorName')); 
+
+			   $(this.el).html(_.template(betTemplate, this.model.toJSON())); 
+
+		       }
+		   })
+		   */
 	       }
 	   }); 
 
