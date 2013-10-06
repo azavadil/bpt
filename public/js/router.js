@@ -11,8 +11,10 @@ define(['views/index',
 	'views/profile',
 	'views/handicappers', 
 	'views/placebet', 
+	'views/bet', 
 	'models/Account', 
-	'models/Bettor', 
+	'models/Bettor',
+	'models/Bet', 
 	'models/BettorCollection'],
 function(IndexView, 
 	 RegisterView, 
@@ -20,9 +22,11 @@ function(IndexView,
 	 ForgotPasswordView, 
 	 ProfileView, 
 	 HandicapperListView, 
-	 PlacebetView, 
+	 PlacebetView,
+	 BetView, 
 	 Account, 
 	 Bettor, 
+	 Bet, 
 	 BettorCollection) {
   
 
@@ -36,7 +40,9 @@ var SocialRouter = Backbone.Router.extend({
 	'register': 'register',
 	'bettors': 'bettors', 
 	'forgotpassword': 'forgotpassword',
-	'profile/:id': 'profile', 
+	'profile/:id': 'profile',
+	'accounts/:id': 'accounts',
+	'bets/:id': 'bets', 
 	'placebet': 'placebet'
     },
 
@@ -78,6 +84,28 @@ var SocialRouter = Backbone.Router.extend({
 
     },
     
+    accounts: function(id) {
+	console.log('~/public/js/router.js | profile | id: ' + id); 
+
+	var model = new Account({id:id});
+	model.fetch();
+	this.changeView(new ProfileView({model:model}));
+
+    },
+    
+    bets: function(id) { 
+
+	
+	var model = new Bet({id:id}); 
+
+	model.fetch(); 
+
+	console.log('~/public/js/router.js | bet | id: ' + model.get('authorName')); 
+
+	this.changeView(new BetView({model: model})); 
+    }, 
+
+
     placebet: function(){
 	this.changeView(new PlacebetView()); 
     }

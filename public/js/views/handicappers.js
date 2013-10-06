@@ -24,9 +24,12 @@ function( Handicappers, hndListTemplate) {
 	  
 	    var that = this; 
 	    var handicappers = new Handicappers(); 
+
+ 
 	  
 	    handicappers.fetch( { 
 		success: function( handicappers ) { 
+		    
 		  
 		    var template = _.template(hndListTemplate, {handicappers: handicappers.models} ); 
 		    

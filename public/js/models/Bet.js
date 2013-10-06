@@ -6,7 +6,9 @@
 
 define(function(require) {
   
-    var Bet = Backbone.Model.extend({ urlRoot: '/accounts/' + this.accountId + '/bet'});
+    var Bet = Backbone.Model.extend({ 
+	urlRoot: '/bets' 
+    });
 
     return Bet;
 });

@@ -14,7 +14,7 @@
 	<td><%= handicapper.get('username') %></td>
         <td><%= handicapper.get('accountBal') %></td>
         <td><%= handicapper.get('winningPercentage') %></td>
-        <td><a class="btn" href="#/account/<%= handicapper.id %>">Full Player Profile</a></td>
+        <td><a class="btn" href="#accounts/<%= handicapper.get('_id') %>">Full Player Profile</a></td>
      </tr>
     <% }); %>
   </tbody>

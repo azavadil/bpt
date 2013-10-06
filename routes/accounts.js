@@ -78,6 +78,7 @@ module.exports = function(app, models){
             : req.params.id;
 	var contactId = req.param('contactId', null);
 
+
 	// Missing contactId, don't bother going any further
 	if ( null == contactId ) {
 	    res.send(400);
@@ -137,6 +138,19 @@ module.exports = function(app, models){
 	    res.send(account);  //POSSIBLE SECURITY BREACH
 	});
     });
+
+    app.get('/bets/:id', function(req, res) {
+	
+
+	
+	var betId = req.params.id; 
+
+	models.Account.findBetById(betId, function( bet ) {
+	    
+	    res.send( bet ); 
+	});
+    });
+
 
  
 }

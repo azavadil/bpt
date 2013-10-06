@@ -4,9 +4,13 @@ define(['SocialNetView',
 	   
 	   var betView = SocialNetView.extend({
 	       
-	       tagName: 'li', 
+	       el: $('#content'), 
+
 	       
 	       render: function(){
+
+		   console.log('~/public/js/views/bet.js | render | model: ' + this.model.get('authorName')); 
+
 		   $(this.el).html(_.template(betTemplate, this.model.toJSON())); 
 		   return this; 
 	       }

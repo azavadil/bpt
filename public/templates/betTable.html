@@ -1,0 +1,28 @@
+<table class="table striped">
+  <thead>
+    <tr>
+      <th>Counterparty</th><th>Description</th><th>Pts To Win</th><th>Pts To Lose</th><th>See Details</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+
+     <% _.each(bets, function( bet ) { %>
+	
+     
+
+     <tr> 
+       <% if( bet.counterpartyId !== accountId ) { %> 
+        <td><%= bet.counterpartyName %> </td> 
+       <% } else { %> 
+        <td><%= bet.authorName %> </td> 
+       <% } %> 
+
+        <td><%= bet.betDescription %></td>
+        <td><%= bet.authorBet %></td>
+	<td><%= bet.counterpartyBet %></td>
+        <td><a class="btn" href="#bets/<%= bet._id %>">Go To Details</a></td>
+     </tr>
+    <% }); %>
+  </tbody>
+</table>

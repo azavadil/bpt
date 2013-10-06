@@ -1,8 +1,10 @@
 module.exports = function(config, mongoose, nodemailer) {
-  var crypto = require('crypto');
+    var crypto = require('crypto');
 
 
-  var Bet = new mongoose.Schema({
+
+
+    var Bet = new mongoose.Schema({
       authorId: { type: mongoose.Schema.Types.ObjectId },
       counterpartyId: { type: mongoose.Schema.Types.ObjectId },
       authorName: { type: String }, 
@@ -135,6 +137,17 @@ j	});
   };
 
   
+    var findBetById = function(betId, callback) {
+	Account.findOne({ "bets._id": mongoose.Types.ObjectId( betId ) }, function(err,betDoc) {
+	    
+
+	    var betArray = betDoc.bets; 
+
+	    var matchingBet = betArray.filter(function( item, index, array ) { return item._id.toString() === betId; }); 
+
+	    callback( matchingBet );
+	});
+    };
 
   var addBet = function(account, addBet) {
     bet = {
@@ -218,18 +231,19 @@ j	});
 			  
 
   return {
-    findById: findById,
-    findCounterparty: findCounterparty, 
-    register: register,
-    hasContact: hasContact,
-    forgotPassword: forgotPassword,
-    changePassword: changePassword,
-    findByString: findByString,
-    find20Bettors: find20Bettors,
-    allBettors: allBettors, 
-    placeBet: placeBet, 
-    //addWager: addWager, 
-    login: login,
-    Account: Account
+      findById: findById,
+      findBetById: findBetById, 
+      findCounterparty: findCounterparty, 
+      register: register,
+      hasContact: hasContact,
+      forgotPassword: forgotPassword,
+      changePassword: changePassword,
+      findByString: findByString,
+      find20Bettors: find20Bettors,
+      allBettors: allBettors, 
+      placeBet: placeBet, 
+      //addWager: addWager, 
+      login: login,
+      Account: Account
   }
 }
