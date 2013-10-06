@@ -7,21 +7,23 @@ define(['models/BetCollection',
 	       tagName: 'div', 
 	       
 	       render: function(){ 
-		   console.log('~/public/js/views/betTable.js | render'); 
+		   
 		   
 		   var that = this; 
 		   
-		   var bets = this.collection.models; 
+		   var bets = this.options.betArray; 
+
+		   console.log('~/public/js/views/betTable.js | render | this.collection: ' + bets); 
+
+
 		   
-		   bets.fetch({
-		       success: function( bets ){
-			   
-			   var template = _.template( betTableTemplate, { bets: bets.models }); 
-			   
-			   that.$el.html(template); 
-		       }j
-		   }); 
+		   var templateArgs = { bets: bets, accountId: this.options.accountId}; 
+
+		   var template = _.template( betTableTemplate, templateArgs ); 
 		   
+		   that.$el.html( template ); 
+
+ 
 		   return this; 
 	       }
 	   }); 

@@ -35,12 +35,12 @@ function(SocialNetView,
 		   );
 		   
 		   
-		   var betCollection = this.model.get('bets');
+		   var betArray = this.model.get('bets');
 
-		   console.log('~/public/js/views/profileView | render | betCollection: ' + betCollection.toString()); 
+		   console.log('~/public/js/views/profileView | render | betCollection: ' + this.model.get('_id'));  
+4
 
-
-		   var betTableHtml = (new BetTableView( {collection: betCollection} )).render().el; 
+		   var betTableHtml = (new BetTableView( {betArray: betArray, accountId: this.model.get('_id') } )).render().el; 
 		   
 		   $(betTableHtml).appendTo('#pendingBetList'); 
 
