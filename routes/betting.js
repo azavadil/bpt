@@ -73,8 +73,7 @@ module.exports = function(app, models){
 			counterpartyBet: counterpartyBet
 		    }; 
 		    
-		    models.Account.placeBet(account, betProperties);
-		    models.Account.placeBet(cpAccount, betProperties); 
+		    models.Account.placeBet(account, cpAccount, betProperties);
 		    res.send(200);
 		}); 
 	    }

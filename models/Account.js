@@ -181,7 +181,7 @@ module.exports = function(config, mongoose, nodemailer) {
 	console.log('Save command was sent');
     };
 
-    var placeBet = function(account, betDetails){
+    var placeBet = function(account, cpAccount, betDetails){
 
 	console.log('~/models/Account.js | placebet | authorId'); 
 	
@@ -216,6 +216,16 @@ module.exports = function(config, mongoose, nodemailer) {
 		    console.log('Error pushing bet to account and saving' + err); 
 		}
 	    }); 
+
+	    cpAccount.bets.push( bet.id ); 
+	    cpAccount.save( function ( err ) { 
+		if ( err ) { 
+		    console.log('Error pushing bet to cpAccount and saving' + err); 
+		}
+	    }); 
+
+	    
+
 	}); 
     }; 
 		    
