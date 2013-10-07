@@ -78,12 +78,14 @@ var SocialRouter = Backbone.Router.extend({
     profile: function(id) {
 
 	var model = new Account({id:id});
+	
+
 	//model.fetch({ success: function(){ console.log('~/public/js/router.js | profile | username: ' + model.get('username')); }} );
 	
 	model.fetch(); 
 
-	this.changeView(new ProfileView({model:model}));
-
+	this.changeView(new ProfileView({ model:model }));
+	
     },
     
     accounts: function(id) {

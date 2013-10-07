@@ -32,7 +32,7 @@ module.exports = function(config, mongoose, nodemailer) {
 	numWinningBets : {type: Number }, 
 	winningPercentage : { type: Number }, 
 	accountBal: { type: Number },       
-	bets:  [String]
+	bets:  [Bet]
     });
 
     var Account = mongoose.model('Account', AccountSchema);
@@ -139,14 +139,12 @@ module.exports = function(config, mongoose, nodemailer) {
 
   
     var findBetById = function(betId, callback) {
-	Account.findOne({ "bets._id": mongoose.Types.ObjectId( betId ) }, function(err,betDoc) {
-	    
+	
+	console.log('/models/Account/ | findBetById'); 
 
-	    var betArray = betDoc.bets; 
+	Bet.findOne({ "_id": mongoose.Types.ObjectId( betId ) }, function(err,betDoc) {
 
-	    var matchingBetArr = betArray.filter(function( item, index, array ) { return item._id.toString() === betId; }); 
-
-	    callback( matchingBetArr[0] );
+	    callback( betDoc );
 	});
     };
 
@@ -210,14 +208,14 @@ module.exports = function(config, mongoose, nodemailer) {
 		console.log('Error saving bet: '+ err ); 
 	    } 
 	    
-	    account.bets.push( bet.id ); 
+	    account.bets.push( bet ); 
 	    account.save( function ( err ) { 
 		if ( err ) { 
 		    console.log('Error pushing bet to account and saving' + err); 
 		}
 	    }); 
 
-	    cpAccount.bets.push( bet.id ); 
+	    cpAccount.bets.push( bet ); 
 	    cpAccount.save( function ( err ) { 
 		if ( err ) { 
 		    console.log('Error pushing bet to cpAccount and saving' + err); 

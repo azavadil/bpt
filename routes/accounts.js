@@ -141,12 +141,14 @@ module.exports = function(app, models){
 
     app.get('/bets/:id', function(req, res) {
 	
-
+	console.log('~/routes/accounts | get/bets/:id ' + req.params.id ); 
 	
 	var betId = req.params.id; 
 
 	models.Account.findBetById(betId, function( bet ) {
 	    
+	    console.log('~/routes/accounts | get/bets/:id | callback' ); 
+
 	    res.send( bet ); 
 	});
     });

@@ -2,12 +2,14 @@ define(['SocialNetView',
 	'text!templates/profile.html',
         'text!templates/betTable.html', 
 	'models/Bet',
-        'views/betTable'],
+        'views/betTable', 
+        'models/BetCollection'],
 function(SocialNetView, 
 	 profileTemplate,
          betTableTemplate, 
 	 Bet, 
-	 BetTableView)
+	 BetTableView, 
+	 BetCollection)
        {
 	   var profileView = SocialNetView.extend({
 	       
@@ -22,9 +24,19 @@ function(SocialNetView,
 	       },
 
 
+	       getModel: function( id ){ 
+		   
+		   var bet = new Bet({id:id}); 
+		   bet.fetch(); 
+		   return bet; 
+	       },
  
 	       render: function() {
 
+		   
+		   
+		   
+		   
 		   var that = this;
 		   
 		   var modelJson = this.model.toJSON(); 
@@ -34,17 +46,14 @@ function(SocialNetView,
 		       _.template(profileTemplate,this.model.toJSON())
 		   );
 		   
+
 		   
 		   var betArray = this.model.get('bets');
-
-		   console.log('~/public/js/views/profileView | render | betCollection: ' + this.model.get('_id'));  
-4
-
-		   var betTableHtml = (new BetTableView( {betArray: betArray, accountId: this.model.get('_id') } )).render().el; 
 		   
-		   $(betTableHtml).appendTo('#pendingBetList'); 
-
+		   var betTableHtml = (new BetTableView( {betArray: betArray, accountId: that.model.get('_id') } )).render().el; 
 		   
+		   $(betTableHtml).appendTo('#pendingBetList');
+		  	       
 	       }
 	   });
 

@@ -13,7 +13,7 @@ define(['models/BetCollection',
 		   
 		   var bets = this.options.betArray; 
 
-		   console.log('~/public/js/views/betTable.js | render | this.collection: ' + bets); 
+		   console.log('~/public/js/views/betTable.js | render | this.collection: ' + bets[0].authorName); 
 
 
 		   
