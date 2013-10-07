@@ -1,4 +1,19 @@
 <ul id="betDetails"/> 
- <li>Party1: <%= authorName %> </li> 
- <li>CounterParty: <%= counterpartyName %> </li> 
+ <li>Author: <%= authorName %> </li> 
+ <li>CounterParty: <%= counterpartyName %> </li>
+ <li>Bet description: <%= betDescription %> </li>
+ <li>Reference index: <%= referenceIndex %> </li>
+ <li>Termination events: <%= terminationEvent %> </li> 
+ <li>Bet accepted by counterparty: <%= counterpartyAccept %> </li>
+ <li>Termination event accepted by author: <%= authorTeAccept %> </li>
+ <li>Termination event accepted by counterparty: <%= counterpartyTeAccept %> </li> 
+ <li>Winner approved by author: <%= authorValidation %> </li> 
+ <li>Winner approved by counterparty: <%= counterpartyValidation %> </li> 
+ <% if ( winner ) { %> 
+  <li>Winner: <%= winner %> </li> 
+ <% } else { %> 
+  <li>Winner: Pending </li> 
+ <% } %> 
+
+
 </ul>  

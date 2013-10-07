@@ -211,10 +211,15 @@ j	});
 	    counterpartyName: betDetails.counterpartyName, 
 	    betDescription: betDetails.betDescription, 
 	    referenceIndex: betDetails.referenceIndex, 
-	    termintionEvent: betDetails.terminationEvent, 
+	    terminationEvent: betDetails.terminationEvent, 
 	    authorBet: betDetails.authorBet, 
 	    counterpartyBet: betDetails.counterpartyBet, 
-	    counterpartyAccept: false, 
+	    counterpartyAccept: false,
+	    authorTeAccept: false, 
+	    counterpartyTeAccept: false, 
+	    authorValidation: false, 
+	    counterpartyValidation: false, 
+	    winner: null, 
 	    added: new Date(), 
 	    updated: new Date()
 	}; 
