@@ -101,16 +101,21 @@ var SocialRouter = Backbone.Router.extend({
 
 	var that = this; 
 	var betModel = new Bet({id:id}); 
-
-	betModel.fetch( { 
-	    success: function(){  
-		    
-
-		that.changeView(new BetView( {model: betModel} )); 
-	    }
-	}); 
-
+	var currUser = new Account({id:'me'})
 	
+	currUser.fetch({
+	    success: function(){ 
+		betModel.fetch( { 
+		    success: function(){  
+			that.changeView(new BetView({
+			    model: betModel, 
+			    user: currUser
+			} )); 
+		    }
+		});
+	    }
+	});  
+	    	
     }, 
 
 

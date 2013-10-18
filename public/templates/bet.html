@@ -1,19 +1,48 @@
-<ul id="betDetails"/> 
- <li>Author: <%= authorName %> </li> 
- <li>CounterParty: <%= counterpartyName %> </li>
- <li>Bet description: <%= betDescription %> </li>
- <li>Reference index: <%= referenceIndex %> </li>
- <li>Termination events: <%= terminationEvent %> </li> 
- <li>Bet accepted by counterparty: <%= counterpartyAccept %> </li>
- <li>Termination event accepted by author: <%= authorTeAccept %> </li>
- <li>Termination event accepted by counterparty: <%= counterpartyTeAccept %> </li> 
- <li>Winner approved by author: <%= authorValidation %> </li> 
- <li>Winner approved by counterparty: <%= counterpartyValidation %> </li> 
- <% if ( winner ) { %> 
-  <li>Winner: <%= winner %> </li> 
- <% } else { %> 
-  <li>Winner: Pending </li> 
- <% } %> 
+<div> 
+  <ul id="betDetails"/> 
+    <li>Author: <%= model.authorName %> </li> 
+    <li>Counterparty: <%= model.counterpartyName %> </li>
+    <li>Bet description: <%= model.betDescription %> </li>
+    <li>Reference index: <%= model.referenceIndex %> </li>
+    <li>Termination events: <%= model.terminationEvent %> </li> 
+    <li>Bet accepted by counterparty: <%= model.counterpartyAccept %> </li>
+    <li>Termination event accepted by author: <%= model.authorTeAccept %> </li>
+    <li>Termination event accepted by counterparty: <%= model.counterpartyTeAccept %> </li> 
+    <li>Winner approved by author: <%= model.authorValidation %> </li> 
+    <li>Winner approved by counterparty: <%= model.counterpartyValidation %> </li> 
+    <% if ( model.winner ) { %> 
+    <li>Winner: <%= model.winner %> </li> 
+    <% } else { %> 
+    <li>Winner: Pending </li> 
+    <% } %> 
 
 
-</ul>  
+  </ul>
+
+  <div class="actionArea"> 
+  </div> 
+ 
+  <div> 
+    <% if ( acceptButton ) { %> 
+      <p><button class="acceptButton">Accept Bet</p> 
+    <% } %> 
+    
+    <% if ( rejectButton ) { %> 
+      <p><button class="rejectButton">Reject Bet</p> 
+    <% } %>
+    
+    <% if ( acceptTeButton ) { %> 
+      <p><button class="acceptTeButton">Cancel Bet due to Termination Event</p> 
+    <% } %>
+    
+    <% if ( rejectTeButton ) { %> 
+      <p><button class="rejectTebutton">Reject Termination Event Cancellation</p> 
+    <% } %>
+    
+    <% if ( acceptWinnerButton ) { %> 
+      <p><button class="acceptWinnerButton">Accept Winner</p> 
+    <% } %>
+
+  </div> 
+
+</div> 
