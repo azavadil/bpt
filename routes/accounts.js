@@ -154,21 +154,36 @@ module.exports = function(app, models){
     });
 
     app.post('/bets/:id', function(req, res) {
+
+	console.log('~/routes/accounts.js | app.post/bets/:id | ids: ' + req.param('counterpartyId') + ", "  + req.session.accountId) 
 	
 	// validate that user is counterparty (i.e. user has authority to accept bet)
 	if ( req.param('counterpartyId') === req.session.accountId ) { 
 	
 	    var betId = req.params.id; 
+	    
+	    var selectedAction = req.param('selectedAction');
+	    
+	    
 
-	    models.Account.findByIdAndUpdateBet(betId, { $set:{counterpartyAccept: true}}, function( bet ) {
-		
-		console.log('~/routes/accounts | post/bets/:id | callback' ); 	
+	    var cpAccept, cpReject; 
+	    cpAccept = cpReject = false; 
+	    if ( selectedAction === "acceptBet" ) { 
+		cpAccept = true; 
+	    } else if ( selectedAction === "rejectBet" ) { 
+		cpReject = true; 
+	    }
 
+	    models.Account.findByIdAndUpdateBet(betId, 
+						{$set:{counterpartyAccept: cpAccept, counterpartyReject: cpReject}}, 
+						function( bet ) {
+						    console.log('~/routes/accounts | post/bets/:id | callback' ); 	
 	    });
 	    //endpoint returns immediately
 	    res.send(200)
+	} else { 
+	    res.send(400) 
 	}
-	res.send(400) 
     });
 
 
