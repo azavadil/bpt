@@ -1,0 +1,18 @@
+TODO
+
+1. I would like to setup the application to use separate databases or separate collections. 
+   The database has a single database with a two collections. Account and Bet. 
+   
+   The variable we use to access the database is setup in app.js
+
+   $   var models = { Account.require('./models/Account')(config, mongoose, nodemailer)} 
+
+   The application accesses the database with the following syntax
+
+   $   models.Account.xxx
+
+   However, it would be usedful if the Bet collection could be accessed directly. Specifically,
+   I'd like to be able to call the .findByIdAndUpdate method directly in the application
+
+   $   models.Bet.findByIdAndUpdate
+
