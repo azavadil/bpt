@@ -28,9 +28,13 @@ define(['SocialNetView',
 
 	       initialize: function(options){
 
-		   console.log('~/public/js/view/bet.js | initialize ' + this.model.get('authorId')); 
+		   console.log('~/public/js/view/bet.js | initialize | ids: ' + this.model.get('counterpartyId') + ", " + options.user.get('_id'));
+		   console.log('~/public/js/view/bet.js | initialize | counterpartyAccept: ' + this.model.get('counterpartyAccept') ); 
 		   // Note 1
-		   if ( !(this.model.get('counterpartyAccept') && this.model.get('counterpartyId') === options.user.get('_id')) ) { 
+		   if ( !this.model.get('counterpartyAccept') && (this.model.get('counterpartyId') === options.user.get('_id')) ) { 
+		       
+		       
+		       console.log('~/public/js/view/bet.js | initialize | conditional1'); 
 		       this.acceptButton = true;
 		       this.rejectButton = true;
 		       return; 
@@ -87,10 +91,15 @@ define(['SocialNetView',
 		*/ 
 
 	       acceptBet: function(){ 
+
+		   console.log('~/public/js/views/bet.js | acceptBet' );  
+
+		   
 		   var $responseArea = this.$('.actionArea'); 
 		   $.post('/bets/' + this.model.get('_id'), 
 			  {betId: this.model.get('_id'), 
-			   counterpartyId: this.model.get('counterpartyId')
+			   counterpartyId: this.model.get('counterpartyId'), 
+			   actionSelected: 'acceptBet'
 			  }, 
 			  function onSuccess() { 
 			      $responseArea.text('Bet accepted'); 

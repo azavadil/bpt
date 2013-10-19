@@ -227,12 +227,19 @@ module.exports = function(config, mongoose, nodemailer) {
 	}); 
     }; 
 		    
+    var findByIdAndUpdateBet = function( betId, document, callback ) {
+	
+	console.log('~/public/models/Account.js | findByIdAndUpdateBet | betId: ' + betId); 
+	
+	Bet.findByIdAndUpdate( mongoose.Types.ObjectId(betId), document, callback); 
+    }; 
 
 			  
 
   return {
       findById: findById,
       findBetById: findBetById, 
+      findByIdAndUpdateBet: findByIdAndUpdateBet, 
       findCounterparty: findCounterparty, 
       register: register,
       hasContact: hasContact,

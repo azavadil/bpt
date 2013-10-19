@@ -153,6 +153,25 @@ module.exports = function(app, models){
 	});
     });
 
+    app.post('/bets/:id', function(req, res) {
+	
+	// validate that user is counterparty (i.e. user has authority to accept bet)
+	if ( req.param('counterpartyId') === req.session.accountId ) { 
+	
+	    var betId = req.params.id; 
+
+	    models.Account.findByIdAndUpdateBet(betId, { $set:{counterpartyAccept: true}}, function( bet ) {
+		
+		console.log('~/routes/accounts | post/bets/:id | callback' ); 	
+
+	    });
+	    //endpoint returns immediately
+	    res.send(200)
+	}
+	res.send(400) 
+    });
+
+
 
  
 }
