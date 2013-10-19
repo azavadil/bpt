@@ -20,6 +20,9 @@ module.exports = function(config, mongoose, nodemailer) {
       counterpartyTeAccept: {type: Boolean}, 
       authorValidation : { type: Boolean },  
       counterpartyValidation: { type: Boolean },
+      pendingBet: {type: Boolean}, 
+      openBet: {type: Boolean}, 
+      closedBet: {type: Boolean}, 
       winner: {type: mongoose.Schema.ObjectId },
       added:     { type: Date },     // When the bet was added
       updated:   { type: Date }      // When the bet last updated
@@ -199,7 +202,10 @@ module.exports = function(config, mongoose, nodemailer) {
 	    authorTeAccept: false, 
 	    counterpartyTeAccept: false, 
 	    authorValidation: false, 
-	    counterpartyValidation: false, 
+	    counterpartyValidation: false,
+	    pendingBet: true,  
+	    openBet: false, 
+	    closedBet: false, 
 	    winner: null, 
 	    added: new Date(), 
 	    updated: new Date()

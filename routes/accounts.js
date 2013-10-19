@@ -166,16 +166,21 @@ module.exports = function(app, models){
 	    
 	    
 
-	    var cpAccept, cpReject; 
-	    cpAccept = cpReject = false; 
+	    var cpAccept, cpReject, pendingBet, openBet; 
+	    cpAccept = cpReject = pendingBet = false; 
 	    if ( selectedAction === "acceptBet" ) { 
 		cpAccept = true; 
+		openBet = true
 	    } else if ( selectedAction === "rejectBet" ) { 
-		cpReject = true; 
+		cpReject = true;
+		openBet = false;
 	    }
 
 	    models.Account.findByIdAndUpdateBet(betId, 
-						{$set:{counterpartyAccept: cpAccept, counterpartyReject: cpReject}}, 
+						{$set:{counterpartyAccept: cpAccept, 
+						       counterpartyReject: cpReject, 
+						       pendingBet: pendingBet, 
+						       openBet: openBet}}, 
 						function( bet ) {
 						    console.log('~/routes/accounts | post/bets/:id | callback' ); 	
 	    });

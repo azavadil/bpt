@@ -50,7 +50,7 @@ function(SocialNetView,
 		   
 		   var betArray = this.model.get('bets');
 		   
-		   betArray = _.filter(betArray, function( betModel ) { return betModel.counterpartyAccept === false; }); 
+		   betArray = _.filter(betArray, function( betModel ) { return betModel.pendingBet === true; }); 
 		   
 		   var betTableHtml = (new BetTableView( {betArray: betArray, accountId: that.model.get('_id') } )).render().el; 
 		   

@@ -31,7 +31,8 @@ define(['SocialNetView',
 		   this.model.bind('change', this.render, this); 
 
 		   // Note 1
-		   if ( !this.model.get('counterpartyAccept') && (this.model.get('counterpartyId') === options.user.get('_id')) ) { 
+		   if ( !this.model.get('counterpartyAccept') 
+			&& (this.model.get('counterpartyId') === options.user.get('_id')) ) { 
 		       
 		       this.acceptButton = true;
 		       this.rejectButton = true;
