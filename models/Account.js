@@ -36,7 +36,7 @@ module.exports = function(config, mongoose, nodemailer) {
 	numWinningBets : {type: Number }, 
 	winningPercentage : { type: Number }, 
 	accountBal: { type: Number },       
-	bets:  [Bet]
+	bets:  [mongoose.Schema.ObjectId]
     });
 
     var Account = mongoose.model('Account', AccountSchema);
@@ -216,14 +216,14 @@ module.exports = function(config, mongoose, nodemailer) {
 		console.log('Error saving bet: '+ err ); 
 	    } 
 	    
-	    account.bets.push( bet ); 
+	    account.bets.push( bet._id ); 
 	    account.save( function ( err ) { 
 		if ( err ) { 
 		    console.log('Error pushing bet to account and saving' + err); 
 		}
 	    }); 
 
-	    cpAccount.bets.push( bet ); 
+	    cpAccount.bets.push( bet._id ); 
 	    cpAccount.save( function ( err ) { 
 		if ( err ) { 
 		    console.log('Error pushing bet to cpAccount and saving' + err); 

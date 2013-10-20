@@ -1,10 +1,12 @@
 define(['SocialNetView', 
+	'SbCollection', 
 	'text!templates/profile.html',
         'text!templates/betTable.html', 
 	'models/Bet',
         'views/betTable', 
         'models/BetCollection'],
-function(SocialNetView, 
+function(SocialNetView,
+	 SbCollection, 
 	 profileTemplate,
          betTableTemplate, 
 	 Bet, 
@@ -24,7 +26,7 @@ function(SocialNetView,
 	       },
 
 
-	       getModel: function( id ){ 
+	       getModel: function( id, cb ){ 
 		   
 		   var bet = new Bet({id:id}); 
 		   bet.fetch(); 
@@ -32,9 +34,6 @@ function(SocialNetView,
 	       },
  
 	       render: function() {
-
-		   
-		   
 		   
 		   
 		   var that = this;
@@ -46,17 +45,30 @@ function(SocialNetView,
 		       _.template(profileTemplate,this.model.toJSON())
 		   );
 		   
+		   var userBetCollection = new BetCollection(); 
+		   
+		   
+		   userBetCollection.fetchMany( this.model.get('bets') ).then(function( c ) { 
+		       
+		       console.log('~/public/js/views/profile | render: ' + c ) ;
 
+		       var pendingBets = c.where({pendingBet: true}); 
+		       
+		       console.log('~/public/js/views/profile | render | 2: ' + pendingBets) ; 
+		       
+		       var betTableHtml = (new BetTableView( {betArray: pendingBets, accountId: that.model.get('_id') } )).render().el; 
 		   
-		   var betArray = this.model.get('bets');
+		       $(betTableHtml).appendTo('#pendingBetList');
+
+		       
+		   });
 		   
-		   betArray = _.filter(betArray, function( betModel ) { return betModel.pendingBet === true; }); 
-		   
-		   var betTableHtml = (new BetTableView( {betArray: betArray, accountId: that.model.get('_id') } )).render().el; 
-		   
-		   $(betTableHtml).appendTo('#pendingBetList');
-		  	       
 	       }
+
+		  	       
+		   
+
+
 	   });
 
 	   return profileView;

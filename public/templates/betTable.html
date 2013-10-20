@@ -12,8 +12,8 @@
      
 
      <tr> 
-       <% if( bet.counterpartyId !== accountId ) { %> 
-        <td><%= bet.counterpartyName %> </td> 
+       <% if( bet.get('counterpartyId') !== accountId ) { %> 
+        <td><%= bet.get('counterpartyName') %> </td> 
        <% } else { %> 
         <td><%= bet.authorName %> </td> 
        <% } %> 

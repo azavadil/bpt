@@ -167,20 +167,22 @@ module.exports = function(app, models){
 	    
 
 	    var cpAccept, cpReject, pendingBet, openBet; 
-	    cpAccept = cpReject = pendingBet = false; 
+	    cpAccept = cpReject = pendingBet = closedBet = false; 
 	    if ( selectedAction === "acceptBet" ) { 
 		cpAccept = true; 
-		openBet = true
+		openBet = true; 
 	    } else if ( selectedAction === "rejectBet" ) { 
 		cpReject = true;
 		openBet = false;
+		closedBet = true; 
 	    }
 
 	    models.Account.findByIdAndUpdateBet(betId, 
 						{$set:{counterpartyAccept: cpAccept, 
 						       counterpartyReject: cpReject, 
 						       pendingBet: pendingBet, 
-						       openBet: openBet}}, 
+						       openBet: openBet, 
+						       closedBet: closedBet}}, 
 						function( bet ) {
 						    console.log('~/routes/accounts | post/bets/:id | callback' ); 	
 	    });
