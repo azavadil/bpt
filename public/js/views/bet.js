@@ -13,10 +13,12 @@ define(['SocialNetView',
 	       /* 
 		* Implementation note: 
 		* --------------------
-		* Note 1: check to see if the bet is waiting for counterparty approval
+		* Note 1: If the bet is closed, no buttons
+		* 
+		* Note 2: check to see if the bet is waiting for counterparty approval
 		*         and if the counterparty if the user viewing the bet
 		* 
-		* Note 2: check to see if either party has proposed to cancel the bet
+		* Note 3: check to see if either party has proposed to cancel the bet
 		*         due to a termination event. 
 		* 
 		*/ 
@@ -29,8 +31,13 @@ define(['SocialNetView',
 	       initialize: function(options){
 		   
 		   this.model.bind('change', this.render, this); 
-
+		   
 		   // Note 1
+		   if ( this.model.get('closedBet') ) { 
+		       return; 
+		   }
+
+		   // Note 2
 		   if ( !this.model.get('counterpartyAccept') 
 			&& (this.model.get('counterpartyId') === options.user.get('_id')) ) { 
 		       
@@ -39,7 +46,7 @@ define(['SocialNetView',
 		       return; 
 		   }
 
-		   // Note 2
+		   // Note 3
 		   if ( !this.model.get('authorTeAccept') && !this.model.get('counterpartyTeAccept') ) { 
 		       if ( this.model.get('authorId') === options.user.get('_id') ||
 			    this.model.get('counterpartyId') === options.user.get('_id') ) { 
