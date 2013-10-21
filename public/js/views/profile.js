@@ -50,16 +50,19 @@ function(SocialNetView,
 		   
 		   userBetCollection.fetchMany( this.model.get('bets') ).then(function( c ) { 
 		       
-		       console.log('~/public/js/views/profile | render: ' + c ) ;
 
 		       var pendingBets = c.where({pendingBet: true}); 
-		       
-		       console.log('~/public/js/views/profile | render | 2: ' + pendingBets) ; 
-		       
-		       var betTableHtml = (new BetTableView( {betArray: pendingBets, accountId: that.model.get('_id') } )).render().el; 
-		   
-		       $(betTableHtml).appendTo('#pendingBetList');
+		       var pendingHtml = (new BetTableView( {betArray: pendingBets} )).render().el; 
+		       $(pendingHtml).appendTo('#pendingBetList');
 
+		       var openBets = c.where({openBet: true});
+		       var openHtml = (new BetTableView( {betArray: openBets} )).render().el; 
+		       $(openHtml).appendTo('#openBetList');
+		       
+		       var closedBets = c.where({closedBet: true});
+		       var closedHtml = (new BetTableView( {betArray: closedBets} )).render().el; 
+		       $(closedHtml).appendTo('#closedBetList');
+ 
 		       
 		   });
 		   

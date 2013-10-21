@@ -13,11 +13,7 @@ define(['models/BetCollection',
 		   
 		   var bets = this.options.betArray; 
 
-		   console.log('~/public/js/views/betTable.js | render | this.collection: ' + bets[0].authorName); 
-
-
-		   
-		   var templateArgs = { bets: bets, accountId: this.options.accountId}; 
+		   var templateArgs = { bets: bets }; 
 
 		   var template = _.template( betTableTemplate, templateArgs ); 
 		   
