@@ -40,8 +40,15 @@
       <p><button class="rejectTebutton">Reject Termination Event Cancellation</p> 
     <% } %>
     
-    <% if ( acceptWinnerButton ) { %> 
-      <p><button class="acceptWinnerButton">Accept Winner</p> 
+    <% if ( declareWinnerButton ) { %> 
+	<select> 
+	  <option> <% model.authorName %> </option> 
+	  <option> <% model.counterpartyName %> </option> 
+	</select> 
+    <% } %> 
+
+    <% if ( acceptWinnerButton ) { %> 	
+	<p><button class="acceptWinnerButton">Accept Winner</p> 
     <% } %>
 
   </div> 

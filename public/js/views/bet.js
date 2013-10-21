@@ -8,6 +8,7 @@ define(['SocialNetView',
 	       rejectButton: false, 
 	       acceptTeButton: false, 
 	       rejectTeButton: false, 
+	       declareWinnerButton: false, 
 	       acceptWinnerButton: false, 
 
 	       /* 
@@ -78,6 +79,13 @@ define(['SocialNetView',
 		           this.rejectTeButton = true; 
 		           return; 
 		  }
+
+		   if ( this.model.get('openBet') ) {
+		       // TODO: change this to look for pendingWinnerApproval
+		   }
+			
+
+		   
 	       }, 
 
 	       
@@ -87,7 +95,8 @@ define(['SocialNetView',
 		   "click .acceptButton": "acceptBet", 
 		   "click .rejectButton": "rejectBet", 
 		   "click .acceptTeButton": "acceptTerminationEvent", 
-		   "click .rejectTeButton": "rejectTerminationEvent", 
+		   "click .rejectTeButton": "rejectTerminationEvent",
+		   "click .declareWinnerDropdown": "declareWinner", 
 		   "click .acceptWinnerButton": "acceptWinner"
 	       }, 
 
@@ -165,6 +174,10 @@ define(['SocialNetView',
 			 );
 	       }, 
 	       
+	       declareWinner: function(){ 
+		   //code here
+	       }, 
+
 	       acceptWinner: function(){
 		   //code here
 	       }, 
@@ -181,6 +194,7 @@ define(['SocialNetView',
 		       rejectButton: this.rejectButton, 
 		       acceptTeButton: this.acceptTeButton, 
 		       rejectTeButton: this.rejectTeButton, 
+		       declareWinnerButton: this.declareWinnerButton, 
 		       acceptWinnerButton: this.acceptWinnerButton
 		   })); 
 		   
