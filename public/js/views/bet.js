@@ -80,11 +80,6 @@ define(['SocialNetView',
 		  }
 	       }, 
 
-		   
-		       
-		   
-
-
 	       
 	       el: $('#content'), 
 	       
@@ -156,7 +151,18 @@ define(['SocialNetView',
 	       }, 
 
 	       rejectTerminationEvent: function(){ 
-		   //code here
+		   var $responseArea = this.$('.actionArea'); 
+		   $.post('/bets/' + this.model.get('_id'), 
+			  {betId: this.model.get('_id'), 
+			   counterpartyId: this.model.get('counterpartyId'), 
+			   selectedAction: 'rejectTe'
+			  }, 
+			  function onSuccess() { 
+			      $responseArea.text('Termination event accepted'); 
+			  }, function onError(){ 
+			      $responseArea.text('Termination event not accepted, retry');
+			  }
+			 );
 	       }, 
 	       
 	       acceptWinner: function(){
