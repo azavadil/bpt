@@ -47,7 +47,10 @@ define(['SocialNetView',
 		   }
 
 		   // Note 3
-		   if ( !this.model.get('authorTeAccept') && !this.model.get('counterpartyTeAccept') ) { 
+		   if ( !this.model.get('authorTeAccept') &&
+			!this.model.get('counterpartyTeAccept') &&
+			this.model.get('openBet') ) { 
+		       
 		       if ( this.model.get('authorId') === options.user.get('_id') ||
 			    this.model.get('counterpartyId') === options.user.get('_id') ) { 
 			   this.acceptTeButton = true;
@@ -55,19 +58,23 @@ define(['SocialNetView',
 		       }
 		   }
 
-		   if ( this.model.get('authorTeAccept') &&
-			!this.model.get('counterpartyTeAccept') && 
+		   if ( this.model.get('openBet') && 
+			this.model.get('authorTeAccept') &&
+			!this.model.get('counterpartyTeAccept') &&
 			(this.model.get('counterpartyId') === options.user.get('_id')) ) {
-			   this.acceptTeButton = true;
+	
+		           this.acceptTeButton = true;
 		           this.rejectTeButton = true;
 		           return;
 		   }
 		       
 		  		  		   
-		   if ( this.model.get('counterpartyTeAccept') && 
+		   if ( this.model.get('openBet') && 
+			this.model.get('counterpartyTeAccept') && 
 			!this.model.get('authorTeAccept') && 
 			(this.model.get('authorId') === options.user.get('_id')) ) {
-			   this.acceptTeButton = true;
+			
+		           this.acceptTeButton = true;
 		           this.rejectTeButton = true; 
 		           return; 
 		  }
@@ -116,7 +123,7 @@ define(['SocialNetView',
 	       }, 
 
 	       rejectBet: function(){ 
-		   console.log('~/public/js/views/bet.js | acceptBet' );  
+		   console.log('~/public/js/views/bet.js | rejectBet' );  
 
 		   
 		   var $responseArea = this.$('.actionArea'); 
@@ -126,15 +133,26 @@ define(['SocialNetView',
 			   selectedAction: 'rejectBet'
 			  }, 
 			  function onSuccess() { 
-			      $responseArea.text('Bet accepted'); 
+			      $responseArea.text('Bet rejected'); 
 			  }, function onError(){ 
-			      $responseArea.text('Bet not accepted, retry');
+			      $responseArea.text('Bet not rejected, retry');
 			  }
 			 ); 
 	       }, 
 	       
 	       acceptTerminationEvent: function(){
-		   //code here
+		   var $responseArea = this.$('.actionArea'); 
+		   $.post('/bets/' + this.model.get('_id'), 
+			  {betId: this.model.get('_id'), 
+			   counterpartyId: this.model.get('counterpartyId'), 
+			   selectedAction: 'acceptTe'
+			  }, 
+			  function onSuccess() { 
+			      $responseArea.text('Termination event accepted'); 
+			  }, function onError(){ 
+			      $responseArea.text('Termination event not accepted, retry');
+			  }
+			 ); 
 	       }, 
 
 	       rejectTerminationEvent: function(){ 

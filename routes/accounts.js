@@ -157,40 +157,93 @@ module.exports = function(app, models){
 
 	console.log('~/routes/accounts.js | app.post/bets/:id | ids: ' + req.param('counterpartyId') + ", "  + req.session.accountId) 
 	
-	// validate that user is counterparty (i.e. user has authority to accept bet)
-	if ( req.param('counterpartyId') === req.session.accountId ) { 
-	
-	    var betId = req.params.id; 
-	    
-	    var selectedAction = req.param('selectedAction');
-	    
-	    
+	models.Account.findBetById( req.params.id, function( betDoc ) { 
 
-	    var cpAccept, cpReject, pendingBet, openBet; 
-	    cpAccept = cpReject = pendingBet = closedBet = false; 
-	    if ( selectedAction === "acceptBet" ) { 
-		cpAccept = true; 
-		openBet = true; 
-	    } else if ( selectedAction === "rejectBet" ) { 
-		cpReject = true;
-		openBet = false;
-		closedBet = true; 
+	    // validate that user is counterparty (i.e. user has authority to accept bet)
+	    
+	    // check that this works 
+
+	    console.log('~/routes/accounts | post/bets/:id | betDoc.authorId, req.session.Id: ' 
+			+ betDoc.counterpartyId +", "
+			+ betDoc.authorId + ", " 
+			+ req.session.accountId ); 
+	    
+	    if ( betDoc.counterpartyId.toString() === req.session.accountId || 
+	         betDoc.authorId.toString() === req.session.accountId ) { 
+		
+		console.log('~/routes/accounts | post/bets/:id | betDoc.authorId, req.session | conditional' ); 
+
+		var betId = req.params.id; 
+	    
+		var selectedAction = req.param('selectedAction');
+
+		var cpAccept, cpReject, pendingBet, openBet; 
+		cpAccept = betDoc.counterpartyAccept; 
+		cpReject = betDoc.counterpartyReject;  
+		pendingBet = betDoc.pendingBet;  
+		openBet = betDoc.openBet; 
+		closedBet = betDoc.closedBet; 
+		aTeAccept = betDoc.authorTeAccept; 
+		cpTeAccept = betDoc.counterpartyTeAccept; 
+		
+
+		if ( selectedAction === "acceptBet" && betDoc.counterpartyId.toString() === req.session.accountId) { 
+		    cpAccept = true; 
+		    pendingBet = false; 
+		    openBet = true; 
+		} else if ( selectedAction === "rejectBet" && betDoc.counterpartyId.toString() === req.session.accountId) { 
+		    cpReject = true;
+		    pendingBet = false; 
+		    openBet = false;
+		    closedBet = true; 
+		} else if ( selectedAction === "acceptTe" && betDoc.openBet === true ) {
+		    console.log('~/routes/accounts | post/bets/:id | betDoc.authorId, req.session.Id' ); 
+		    if ( betDoc.authorId.toString() === req.session.accountId ){ 
+			aTeAccept = true;
+			if ( betDoc.counterpartyTeAccept ) {
+			    closedBet = true; 
+			    openBet = false; 
+			}
+		    } else if (betDoc.counterpartyId.toString() === req.session.accountId ) { 
+			cpTeAccept = true;
+			if ( betDoc.authorTeAccept ) { 
+			    closedBet = true; 
+			    openBet = false; 
+			}
+		    } 
+		} else if ( selectedAction === "rejectTe" ) { 
+		    if ( betDoc.authorId.toString() === req.session.accountIdj ){ 
+			aTeAccept = true;
+			openBet = true; 
+		    } else { 
+			cpTeAccept = true; 
+			openBet = true;
+		    }
+		}
+
+		       		       
+
+		models.Account.findByIdAndUpdateBet(betId, 
+						    {$set:{counterpartyAccept: cpAccept, 
+							   counterpartyReject: cpReject, 
+							   pendingBet: pendingBet, 
+							   openBet: openBet, 
+							   closedBet: closedBet,
+							   authorTeAccept: aTeAccept,
+							   counterpartyTeAccept: cpTeAccept
+							  }}, 
+						    function( bet ) {
+							console.log('~/routes/accounts | post/bets/:id | callback' ); 	
+						    });
+
+	    
+	  
 	    }
-
-	    models.Account.findByIdAndUpdateBet(betId, 
-						{$set:{counterpartyAccept: cpAccept, 
-						       counterpartyReject: cpReject, 
-						       pendingBet: pendingBet, 
-						       openBet: openBet, 
-						       closedBet: closedBet}}, 
-						function( bet ) {
-						    console.log('~/routes/accounts | post/bets/:id | callback' ); 	
-	    });
-	    //endpoint returns immediately
-	    res.send(200)
-	} else { 
-	    res.send(400) 
-	}
+	});  
+	    
+        //endpoint returns immediately
+        res.send(200) 
+	
     });
 
 
