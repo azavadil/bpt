@@ -78,13 +78,13 @@ define(['SocialNetView',
 		   if ( this.model.get('openBet') && !this.model.get('pendingTe') && !this.model.get('pendingWinner') ) { 
 		       this.declareWinnerButton = true; 
 		   } else if ( this.model.get('pendingWinner') ){ 
-		       if ( curUserIsAuthor && !this.model.get('authorTeAccept') ) { 
-			   this.acceptWinner = true;
-			   this.rejectWinner = true; 
+		       if ( curUserIsAuthor && !this.model.get('authorValidation') ) { 
+			   this.acceptWinnerButton = true;
+			   this.rejectWinnerButton = true; 
 		       } 
-		       if ( curUserIsCp && !this.model.get('counterpartyTeAccept') ){ 
-			   this.acceptWinner = true; 
-			   this.rejectWinner = true; 
+		       if ( curUserIsCp && !this.model.get('counterpartyValidation') ){ 
+			   this.acceptWinnerButton = true; 
+			   this.rejectWinnerButton = true; 
 		       } 
 		  }
 
@@ -101,7 +101,7 @@ define(['SocialNetView',
 		   "click .rejectButton": "rejectBet", 
 		   "click .acceptTeButton": "acceptTerminationEvent", 
 		   "click .rejectTeButton": "rejectTerminationEvent",
-		   "click .declareWinnerDropdown": "declareWinner", 
+		   "change .declareWinnerDropdown": "declareWinner", 
 		   "click .acceptWinnerButton": "acceptWinner", 
 		   "click .rejectWinnerButton": "rejectWinner"
 	       }, 
@@ -181,7 +181,19 @@ define(['SocialNetView',
 	       }, 
 	       
 	       declareWinner: function(){ 
-		   //code here
+		   var winner = this.$('.declareWinnerDropdown').val();
+		   $.post('/bets/' + this.model.get('_id'), 
+			  {betId: this.model.get('_id'), 
+			   selectedAction: 'declareWinner', 
+			   winner: winner
+			  }, 
+			  function onSuccess() { 
+			      $responseArea.text('Winner declared'); 
+			  }, function onError(){ 
+			      $responseArea.text('Action failed, retry');
+			  }
+			 );
+		 
 	       }, 
 
 	       acceptWinner: function(){

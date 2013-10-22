@@ -184,7 +184,7 @@ module.exports = function(app, models){
 	    
 		var selectedAction = req.param('selectedAction');
 
-		var cpAccept, cpReject, pendingIa, pendingTe, pendingWinner;   
+		var cpAccept, cpReject, pendingIa, pendingTe, pendingWinner, winner;   
 		var openBet,closedBet, aTeAccept, cpTeAccept, aValidation, cpValidation; 
 		
 		cpAccept = betDoc.counterpartyAccept; 
@@ -198,6 +198,7 @@ module.exports = function(app, models){
 		cpValidation = betDoc.counterpartyValidation; 
 		pendingTe = betDoc.pendingTe;
 		pendingWinner = betDoc.pendingWinner; 
+		winner = betDoc.winner; 
 
 		if ( selectedAction === "acceptBet" && betDoc.counterpartyId.toString() === req.session.accountId) { 
 		    cpAccept = true; 
@@ -256,14 +257,25 @@ module.exports = function(app, models){
 		
 		if ( selectedAction === "declareWinner" && betDoc.openBet === true ) { 
 		    if ( !betDoc.pendingWinner && (curUserIsAuthor || curUserIsCp) ) { 
-			pendingWinner = true; 
 			
+			console.log('~/routes/accounts | declareWinner | winner ' + req.param('winner') ); 
+
+			var winnerId; 
+			if ( req.param('winner') === betDoc.authorName ) { 
+			    winnerId = betDoc.authorId; 
+			} else if ( req.param('winner') === betDoc.counterpartyName ) { 
+			    winnerId = betDoc.counterpartyId; 
+			} 
+			
+			winner = winnerId;  
+			pendingWinner = true; 
+
 			if ( curUserIsAuthor ) {
 			    aValidation = true;
 			} else { 
 			    cpValidation = true; 
-			} 
-			//TODO update betDoc.winner
+			}
+
 		    }
 		}
 		
@@ -295,8 +307,9 @@ module.exports = function(app, models){
 							   closedBet: closedBet,
 							   authorTeAccept: aTeAccept,
 							   counterpartyTeAccept: cpTeAccept, 
-							   authorValiation: aValidation,  
-							   counterpartyValidation: cpValidation
+							   authorValidation: aValidation,  
+							   counterpartyValidation: cpValidation, 
+							   winner: winner
 							  }}, 
 						    function( bet ) {
 							console.log('~/routes/accounts | post/bets/:id | callback' ); 	
