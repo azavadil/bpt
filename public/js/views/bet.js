@@ -75,7 +75,7 @@ define(['SocialNetView',
 		   }
 		       
 		   // Winner buttons
-		   if ( this.model.get('openBet') && !this.model.get('pendingWinner') ) { 
+		   if ( this.model.get('openBet') && !this.model.get('pendingTe') && !this.model.get('pendingWinner') ) { 
 		       this.declareWinnerButton = true; 
 		   } else if ( this.model.get('pendingWinner') ){ 
 		       if ( curUserIsAuthor && !this.model.get('authorTeAccept') ) { 

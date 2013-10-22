@@ -51,25 +51,34 @@ function(SocialNetView,
 		   userBetCollection.fetchMany( this.model.get('bets') ).then(function( c ) { 
 		       
 		       var openBets = c.where({openBet: true});
-		       var openHtml = (new BetTableView( {betArray: openBets} )).render().el; 
-		       $(openHtml).appendTo('#openBetList');
-		       
-		       var closedBets = c.where({closedBet: true});
-		       var closedHtml = (new BetTableView( {betArray: closedBets} )).render().el; 
-		       $(closedHtml).appendTo('#closedBetList');
+		       if ( openBets.length > 0 ){ 
+			   var openHtml = (new BetTableView( {betArray: openBets} )).render().el; 
+			   $(openHtml).appendTo('#openBetList');
+		       } 
  
+		       var closedBets = c.where({closedBet: true});
+		       if (closedBets.length > 0 ){ 
+			   var closedHtml = (new BetTableView( {betArray: closedBets} )).render().el; 
+			   $(closedHtml).appendTo('#closedBetList');
+		       }
+
 		       var pendingInitialApproval = c.where({pendingInitialApproval: true}); 
-		       var pendingIaHtml = (new BetTableView( {betArray: pendingInitialApproval} )).render().el; 
-		       $(pendingIaHtml).appendTo('#pendingInitialApproval');
-		       
+		       if ( pendingInitialApproval.length > 0 ) {
+			   var pendingIaHtml = (new BetTableView( {betArray: pendingInitialApproval} )).render().el; 
+			   $(pendingIaHtml).appendTo('#pendingInitialApproval');
+		       }
+			   
 		       var pendingTe = c.where({pendingTe: true}); 
-		       var pendingTeHtml = (new BetTableView( {betArray: pendingTe} )).render().el; 
-		       $(pendingTeHtml).appendTo('#pendingTe');
+		       if ( pendingTe.length > 0 ) { 
+			   var pendingTeHtml = (new BetTableView( {betArray: pendingTe} )).render().el; 
+			   $(pendingTeHtml).appendTo('#pendingTe');
+		       }
 
 		       var pendingWinnerValidation = c.where({pendingWinner: true}); 
-		       var pendingWinHtml = (new BetTableView( {betArray: pendingWinnerValidation} )).render().el; 
-		       $(pendingWinHtml).appendTo('#pendingWinnerValidation');
-
+		       if( pendingWinnerValidation.length > 0 ) { 
+			   var pendingWinHtml = (new BetTableView( {betArray: pendingWinnerValidation} )).render().el; 
+			   $(pendingWinHtml).appendTo('#pendingWinnerValidation');
+		       }
 
 		   });
 		   

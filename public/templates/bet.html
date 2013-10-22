@@ -1,88 +1,178 @@
 <div> 
-  <ul id="betDetails"/> 
-    <li>Author: <%= model.authorName %> </li> 
-    <li>Counterparty: <%= model.counterpartyName %> </li>
-    <li>Bet description: <%= model.betDescription %> </li>
-    <li>Reference index: <%= model.referenceIndex %> </li>
-    <li>Termination events: <%= model.terminationEvent %> </li> 
-   
+  <table class="table table-striped"> 
+
+    <thead> 
+      <tr> 
+	<th>Description</th> 
+	<th>Value</th> 
+	<th>Action 1</th> 
+	<th>Action 2</th> 
+      <tr> 
+    </thead> 
+
+    <tbody> 
+      <tr>
+	<td>Author</td>
+	<td><%= model.authorName %></td> 
+      </tr> 
+
+      <tr>
+	<td>Counterparty</td>
+	<td><%= model.counterpartyName %></td> 
+	
+	<% if ( acceptButton ) { %> 
+    	  <td> 
+	    <button class="acceptButton">Accept Bet</button>
+	  </td> 
+	<% } %> 
+    
+	<% if ( rejectButton ) { %> 
+       	  <td>
+	    <button class="rejectButton">Reject Bet</button> 
+	  </td> 
+	<% } %>
+      </tr> 
+
+      <tr>
+	<td>Description</td>
+	<td><%= model.betDescription %></td> 
+      </tr> 
+
+      <tr> 
+	<td>Reference index</td> 
+	<td><%= model.referenceIndex %></td> 
+      </tr>
+
+      <tr> 
+	<td>Termination Events ("TE")</td> 
+	<td><%= model.terminationEvent %></td>
+	<% if ( acceptTeButton ) { %> 
+ 	  <td>
+	    <button class="acceptTeButton">Cancel for TE</button>
+	  <td> 
+        <% } %>
+	
+	<% if ( rejectTeButton ) { %> 
+	  <td> 
+	    <button class="rejectTebutton">Reject TE Cancellation</button>
+	  </td>  
+	<% } %>
+       </tr> 
+
     <% if ( model.counterpartyAccept ) { %> 
-      <li>Bet accepted by counterparty</li>
+      <tr> 
+	<td>Bet accepted by counterparty</td>
+	<td>True</td> 
+      </tr> 
       <% } else if ( model.counterpartyAccept === false ) { %> 
-      <li>Bet rejected by counterparty</li> 
+      <tr>
+	<td>Bet rejected by counterparty</td>
+	<td>True</td> 
+      </tr>
     <% } %>    
   
-    <% if ( model.authorTeAccept ) { %> 
-      <li>Termination Event accepted by author</li>
+    <% if ( model.authorTeAccept ) { %>
+      <tr> 
+	<td>Termination Event accepted by author</td>
+	<td>True</td> 
+      </tr> 
       <% } else if ( model.counterpartyAccept === false ) { %> 
-      <li>Termination Event rejected by author</li> 
+      <tr> 
+	<td>Termination Event rejected by author</td>
+	<td>True</td> 
+      </tr>
     <% } %>    
  
 
-    <% if ( model.counterpartyTeAccept ) { %> 
-      <li>Termination Event accepted by counterparty</li>
+    <% if ( model.counterpartyTeAccept ) { %>
+      <tr>
+        <td>Termination Event accepted by counterparty</td>
+	<td>True</td> 
+      </tr> 
       <% } else if ( model.counterpartyTeAccept === false ) { %> 
-      <li>Termination Event rejected by counterparty</li> 
+      <tr> 
+	<td>Termination Event rejected by counterparty</td>
+	<td>True</td> 
+      </tr> 
     <% } %>    
  
 
     <% if ( model.authorValidation ) { %> 
-      <li>Winner accepted by author</li>
-      <% } else if ( model.authorValidation === false ) { %> 
-      <li>Winner rejected by author</li> 
-    <% } %>    
+    <tr>
+      <td>Winner accepted by author</td>
+      <td>True</td>
+    </tr>
+    <% } else if ( model.authorValidation === false ) { %> 
+    <tr> 
+      <td>Winner rejected by author</td>
+      <td>True</td> 
+    </tr> 
+   <% } %>    
  
-    <% if ( model.counterpartyValidation ) { %> 
-      <li>Winner accepted by counterparty</li>
-      <% } else if ( model.counterpartyValidation === false ) { %> 
-      <li>Winner rejected by counterparty</li> 
+    <% if ( model.counterpartyValidation ) { %>
+    <tr> 
+      <td>Winner accepted by counterparty</td>
+      <td>True</td>
+    </tr>
+    <% } else if ( model.counterpartyValidation === false ) { %> 
+    <tr>
+      <td>Winner rejected by counterparty</td>
+      <td>True</td>
+    </tr> 
     <% } %>    
 
 
-    <% if ( model.winner ) { %> 
-    <li>Winner: <%= model.winner %> </li> 
-    <% } else { %> 
-    <li>Winner: Pending </li> 
+    <% if ( model.winner ) { %>
+    <tr> 
+      <td>Winner</td>
+      </td><%= model.winner %></td>  
+    </tr> 
+    <% } else { %>    
+    <tr>
+      <td>Winner</td>
+      <td>Pending </td> 
+     
+      <% if ( declareWinnerButton ) { %> 
+      <td> 
+	<select> 
+	  <option> <% model.authorName %> </option> 
+	  <option> <% model.counterpartyName %> </option> 
+	</select> 
+      </td> 
+      <% } %> 
+
+    <% if ( acceptWinnerButton ) { %> 
+    <td> 
+       <button class="acceptWinnerButton">Accept Winner</button>
+    </td> 
+    <% } %>
+
+    <% if ( rejectWinnerButton ) { %> 	
+      <td> 
+        <button class="rejectWinnerButton">Reject Winner</button>
+      </td>  
+    <% } %>
+ 
+
+
+    </tr>
     <% } %> 
+</tbody> 
+	
+      
 
-
-  </ul>
 
   <div class="actionArea"> 
   </div> 
  
   <div> 
-    <% if ( acceptButton ) { %> 
-      <p><button class="acceptButton">Accept Bet</p> 
-    <% } %> 
     
-    <% if ( rejectButton ) { %> 
-      <p><button class="rejectButton">Reject Bet</p> 
-    <% } %>
+      
     
-    <% if ( acceptTeButton ) { %> 
-      <p><button class="acceptTeButton">Cancel Bet due to Termination Event</p> 
-    <% } %>
-    
-    <% if ( rejectTeButton ) { %> 
-      <p><button class="rejectTebutton">Reject Termination Event Cancellation</p> 
-    <% } %>
-    
-    <% if ( declareWinnerButton ) { %> 
-	<select> 
-	  <option> <% model.authorName %> </option> 
-	  <option> <% model.counterpartyName %> </option> 
-	</select> 
-    <% } %> 
+  
 
-    <% if ( acceptWinnerButton ) { %> 	
-	<p><button class="acceptWinnerButton">Accept Winner</p> 
-    <% } %>
 
-    <% if ( rejectWinnerButton ) { %> 	
-	<p><button class="rejectWinnerButton">Reject Winner</p> 
-    <% } %>
-    
+     
   </div> 
 
 </div> 
