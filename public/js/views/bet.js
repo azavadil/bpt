@@ -33,27 +33,34 @@ define(['SocialNetView',
 		   
 		   this.model.bind('change', this.render, this); 
 		   
+
+		   var curUserIsAuthor, curUserIsCp; 
+		   curUserIsAuthor = curUserIsCp = false; 
+		   if ( this.model.get('authorId') === options.user.get('_id') ) { 
+		       curUserIsAuthor = true; 
+		   } else if ( this.model.get('counterpartyId') === options.user.get('_id') ) { 
+		       curUserIsCp = true; 
+		   }
+
+
 		   // Note 1
 		   if ( this.model.get('closedBet') ) { 
 		       return; 
 		   }
 
 		   // Note 2
-		   if ( !this.model.get('counterpartyAccept') 
-			&& (this.model.get('counterpartyId') === options.user.get('_id')) ) { 
-		       
+		   if ( this.model.get('counterpartyAccept') === null && curUserIsCp ) { 
 		       this.acceptButton = true;
 		       this.rejectButton = true;
 		       return; 
 		   }
 
 		   // Note 3
-		   if ( !this.model.get('authorTeAccept') &&
-			!this.model.get('counterpartyTeAccept') &&
+		   if ( this.model.get('authorTeAccept') === null &&
+			this.model.get('counterpartyTeAccept') === null &&
 			this.model.get('openBet') ) { 
 		       
-		       if ( this.model.get('authorId') === options.user.get('_id') ||
-			    this.model.get('counterpartyId') === options.user.get('_id') ) { 
+		       if (  curUserIsAuthor || curUserIsCp ) { 
 			   this.acceptTeButton = true;
 			   return;
 		       }
@@ -62,7 +69,7 @@ define(['SocialNetView',
 		   if ( this.model.get('openBet') && 
 			this.model.get('authorTeAccept') &&
 			!this.model.get('counterpartyTeAccept') &&
-			(this.model.get('counterpartyId') === options.user.get('_id')) ) {
+			curUserIsCp ) {
 	
 		           this.acceptTeButton = true;
 		           this.rejectTeButton = true;

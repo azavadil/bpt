@@ -222,48 +222,47 @@ module.exports = function(app, models){
 		 */ 
 
 
-
-
-
 		if ( selectedAction === "acceptTe" && betDoc.openBet === true ) {
-		    
-		    if ( betDoc.authorId.toString() === req.session.accountId ){ 
-			aTeAccept = true;
-			if ( betDoc.counterpartyTeAccept ) {
-			    closedBet = true; 
-			    openBet = false; 
+		    if ( !betDoc.pendingTe ) { 
+			pendingTe = true; 
+			if ( curUserIsAuthor ){ 
+			    aTeAccept = true;
+			} else { 
+			    cpTeAccept = true; 
 			}
-		    } else if (betDoc.counterpartyId.toString() === req.session.accountId ) { 
-			cpTeAccept = true;
-			if ( betDoc.authorTeAccept ) { 
-			    closedBet = true; 
-			    openBet = false; 
+		    } else if ( betDoc.pendingTe ) { 
+			pendingTe = false; 
+			closedBet = true; 
+			openBet = false;
+			if ( curUserIsAuthor ){ 
+			    aTeAccept = true;
+			} else { 
+			    cpTeAccept = true; 
 			}
-		    } 
+		    }
 		} 
 		
-		if ( selectedAction === "rejectTe" ) { 
-		    if ( betDoc.authorId.toString() === req.session.accountId ){ 
-			aTeAccept = true;
-			openBet = true; 
-		    } else { 
-			cpTeAccept = true; 
-			openBet = true;
+		
+		if ( selectedAction === "rejectTe" && betDoc.pendingTe === true ) { 
+		    openBet = false; 
+		    pendingTe = false; 
+		    closedBet = true;
+		    if ( curUserIsAuthor ){ 
+			aTeAccept = false;
+		    } else if ( curUserIsCp ){ 
+			cpTeAccept = false; 
 		    }
 		}
 		
-		if ( selectedAction === "declareWinner" ) { 
-		    if ( !betDoc.authorValidation && !betDoc.counterpartyValidation ) { 
-			 
-			if ( (betDoc.authorId.toString() === req.session.accountId) || 
-			      (betDoc.counterpartyId.toString() === req.session.accountId) ) { 
-		             
-			     if ( betDoc.authorId.toString() === req.session.accountId ) { 
+		if ( selectedAction === "declareWinner" && betDoc.openBet === true ) { 
+		    if ( !betDoc.pendingWinner && (curUserIsAuthor || curUserIsCp) ) { 
+			pendingWinner = true; 
+			
+			if ( curUserIsAuthor ) {
 				 aValidation = true;
 			     } else { 
 				 cpValidation = true; 
 			     } 
-			    
 			    //TODO update betDoc.winner
 			}
 		    }
@@ -292,7 +291,9 @@ module.exports = function(app, models){
 		models.Account.findByIdAndUpdateBet(betId, 
 						    {$set:{counterpartyAccept: cpAccept, 
 							   counterpartyReject: cpReject, 
-							   pendingInitialApproval: pendingIa, 
+							   pendingInitialApproval: pendingIa,
+							   pendingTe: pendingTe, 
+							   pendingWinner: pendingWinner, 
 							   openBet: openBet, 
 							   closedBet: closedBet,
 							   authorTeAccept: aTeAccept,
