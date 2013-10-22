@@ -42,54 +42,52 @@ define(['SocialNetView',
 		       curUserIsCp = true; 
 		   }
 
+		   
+		   if ( !curUserIsAuthor && !curUserIsCp ) { 
+		       return; 
+		   }
 
-		   // Note 1
+
 		   if ( this.model.get('closedBet') ) { 
 		       return; 
 		   }
 
-		   // Note 2
-		   if ( this.model.get('counterpartyAccept') === null && curUserIsCp ) { 
+		   
+		   if ( this.model.get('pendingInitialApproval') && curUserIsCp ) { 
 		       this.acceptButton = true;
 		       this.rejectButton = true;
 		       return; 
 		   }
 
-		   // Note 3
-		   if ( this.model.get('authorTeAccept') === null &&
-			this.model.get('counterpartyTeAccept') === null &&
-			this.model.get('openBet') ) { 
-		       
-		       if (  curUserIsAuthor || curUserIsCp ) { 
+		   // Termination Buttons
+		   if ( this.model.get('openBet') && !this.model.get('pendingTe') ){
+		       this.acceptTeButton = true;
+		   } else if ( this.model.get('pendingTe') ){  
+	               if ( curUserIsAuthor && !this.model.get('authorTeAccept') ) { 
 			   this.acceptTeButton = true;
-			   return;
+			   this.rejectTeButton = true; 
+		       } 
+		       if ( curUserIsCp && !this.model.get('counterpartyTeAccept') ){ 
+			   this.acceptTeButton = true; 
+			   this.rejectTeButton = true; 
 		       }
-		   }
-
-		   if ( this.model.get('openBet') && 
-			this.model.get('authorTeAccept') &&
-			!this.model.get('counterpartyTeAccept') &&
-			curUserIsCp ) {
-	
-		           this.acceptTeButton = true;
-		           this.rejectTeButton = true;
-		           return;
+		       
 		   }
 		       
-		  		  		   
-		   if ( this.model.get('openBet') && 
-			this.model.get('counterpartyTeAccept') && 
-			!this.model.get('authorTeAccept') && 
-			(this.model.get('authorId') === options.user.get('_id')) ) {
-			
-		           this.acceptTeButton = true;
-		           this.rejectTeButton = true; 
-		           return; 
+		   // Winner buttons
+		   if ( this.model.get('openBet') && !this.model.get('pendingWinner') ) { 
+		       this.declareWinnerButton = true; 
+		   } else if ( this.model.get('pendingWinner') ){ 
+		       if ( curUserIsAuthor && !this.model.get('authorTeAccept') ) { 
+			   this.acceptWinner = true;
+			   this.rejectWinner = true; 
+		       } 
+		       if ( curUserIsCp && !this.model.get('counterpartyTeAccept') ){ 
+			   this.acceptWinner = true; 
+			   this.rejectWinner = true; 
+		       } 
 		  }
 
-		   if ( this.model.get('openBet') ) {
-		       // TODO: change this to look for pendingWinnerApproval
-		   }
 			
 
 		   
@@ -104,7 +102,8 @@ define(['SocialNetView',
 		   "click .acceptTeButton": "acceptTerminationEvent", 
 		   "click .rejectTeButton": "rejectTerminationEvent",
 		   "click .declareWinnerDropdown": "declareWinner", 
-		   "click .acceptWinnerButton": "acceptWinner"
+		   "click .acceptWinnerButton": "acceptWinner", 
+		   "click .rejectWinnerButton": "rejectWinner"
 	       }, 
 
 	       /*
@@ -187,6 +186,10 @@ define(['SocialNetView',
 
 	       acceptWinner: function(){
 		   //code here
+	       },
+	       
+	       rejectWinner: function(){ 
+		   //code here
 	       }, 
 	       
 		   
@@ -202,7 +205,8 @@ define(['SocialNetView',
 		       acceptTeButton: this.acceptTeButton, 
 		       rejectTeButton: this.rejectTeButton, 
 		       declareWinnerButton: this.declareWinnerButton, 
-		       acceptWinnerButton: this.acceptWinnerButton
+		       acceptWinnerButton: this.acceptWinnerButton, 
+		       rejectWinnerButton: this.rejectWinnerButton
 		   })); 
 		   
 	       }

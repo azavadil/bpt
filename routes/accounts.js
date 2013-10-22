@@ -259,31 +259,28 @@ module.exports = function(app, models){
 			pendingWinner = true; 
 			
 			if ( curUserIsAuthor ) {
-				 aValidation = true;
-			     } else { 
-				 cpValidation = true; 
-			     } 
-			    //TODO update betDoc.winner
-			}
+			    aValidation = true;
+			} else { 
+			    cpValidation = true; 
+			} 
+			//TODO update betDoc.winner
 		    }
-		} 
+		}
+		
 		
 		if ( selectedAction === "acceptWinner" ) { 
-		    if ( betDoc.authorValidation &&
-			 !betDoc.counterpartyValidation && 
-		    	 curUserIsCp ) { 
-			cpValidation = true;
+		    if ( betDoc.pendingWinner && curUserIsAuthor && !betDoc.authorValidation ){ 
+			aValidation = true;
 			openBet = false; 
 			closedBet = true; 
 			//TODO:UPDATE BETTING RECORD 
 		    } 
 		    
-		    if ( betDoc.counterpartyValidation && 
-			 !betDoc.authorValidation && 
-			 curUserIsAuthor ) { 
-			aValidation = true;
+		    if ( betDoc.pendingWinner && curUserIsCP && !betDoc.counterpartyValidation )  { 
+			cpValidation = true;
 			openBet = false; 
-			closedBet = true; 
+			closedBet = true;
+			//TODO: UPDATE BETTING RECORD
 		    }
 		}
      		       
