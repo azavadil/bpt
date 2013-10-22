@@ -206,9 +206,8 @@ module.exports = function(app, models){
 		} 
 		
 		if ( selectedAction === "rejectBet" && betDoc.counterpartyId.toString() === req.session.accountId) { 
-		    cpReject = true;
+		    cpAccept = false;
 		    pendingIa = false; 
-		    openBet = false;
 		    closedBet = true; 
 		} 
 		

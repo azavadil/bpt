@@ -5,12 +5,40 @@
     <li>Bet description: <%= model.betDescription %> </li>
     <li>Reference index: <%= model.referenceIndex %> </li>
     <li>Termination events: <%= model.terminationEvent %> </li> 
-    <li>Bet accepted by counterparty: <%= model.counterpartyAccept %> </li>
-    <li>Bet rejected by counterparty: <%= model.counterpartyReject %> </li>
-    <li>Termination event accepted by author: <%= model.authorTeAccept %> </li>
-    <li>Termination event accepted by counterparty: <%= model.counterpartyTeAccept %> </li> 
-    <li>Winner approved by author: <%= model.authorValidation %> </li> 
-    <li>Winner approved by counterparty: <%= model.counterpartyValidation %> </li> 
+   
+    <% if ( model.counterpartyAccept ) { %> 
+      <li>Bet accepted by counterparty</li>
+      <% } else if ( model.counterpartyAccept === false ) { %> 
+      <li>Bet rejected by counterparty</li> 
+    <% } %>    
+  
+    <% if ( model.authorTeAccept ) { %> 
+      <li>Termination Event accepted by author</li>
+      <% } else if ( model.counterpartyAccept === false ) { %> 
+      <li>Termination Event rejected by author</li> 
+    <% } %>    
+ 
+
+    <% if ( model.counterpartyTeAccept ) { %> 
+      <li>Termination Event accepted by counterparty</li>
+      <% } else if ( model.counterpartyTeAccept === false ) { %> 
+      <li>Termination Event rejected by counterparty</li> 
+    <% } %>    
+ 
+
+    <% if ( model.authorValidation ) { %> 
+      <li>Winner accepted by author</li>
+      <% } else if ( model.authorValidation === false ) { %> 
+      <li>Winner rejected by author</li> 
+    <% } %>    
+ 
+    <% if ( model.counterpartyValidation ) { %> 
+      <li>Winner accepted by counterparty</li>
+      <% } else if ( model.counterpartyValidation === false ) { %> 
+      <li>Winner rejected by counterparty</li> 
+    <% } %>    
+
+
     <% if ( model.winner ) { %> 
     <li>Winner: <%= model.winner %> </li> 
     <% } else { %> 
