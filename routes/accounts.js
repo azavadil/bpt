@@ -163,42 +163,71 @@ module.exports = function(app, models){
 			+ betDoc.counterpartyId +", "
 			+ betDoc.authorId + ", " 
 			+ req.session.accountId ); 
-	    
+
+	    // only the author and the counterparty are authorized to modify the bet
 	    if ( betDoc.counterpartyId.toString() === req.session.accountId || 
 	         betDoc.authorId.toString() === req.session.accountId ) { 
- 		
-		console.log('~/routes/accounts | post/bets/:id | betDoc.authorId, req.session | conditional' ); 
+		
+
+		var curUserIsAuthor, curUserIsCp; 
+		curUserIsAuthor = curUserIsCp = false; 
+		if ( betDoc.authorId.toString() === req.session.accountId ) { 
+		    curUserIsAuthor = true; 
+		}
+		if ( betDoc.counterpartyId.toString() === req.session.accountId ){ 
+		    curUserIsCp = true; 
+		}
+
+		
 
 		var betId = req.params.id; 
 	    
 		var selectedAction = req.param('selectedAction');
 
-		var cpAccept, cpReject, pendingBet, openBet,closedBet, aTeAccept, cpTeAccept, aValidation, cpValidation; 
+		var cpAccept, cpReject, pendingIa, pendingTe, pendingWinner;   
+		var openBet,closedBet, aTeAccept, cpTeAccept, aValidation, cpValidation; 
+		
 		cpAccept = betDoc.counterpartyAccept; 
 		cpReject = betDoc.counterpartyReject;  
-		pendingBet = betDoc.pendingBet;  
+		pendingIa = betDoc.pendingInitialApproval;  
 		openBet = betDoc.openBet; 
 		closedBet = betDoc.closedBet; 
 		aTeAccept = betDoc.authorTeAccept; 
 		cpTeAccept = betDoc.counterpartyTeAccept; 
 		aValidation = betDoc.authorValidation; 
 		cpValidation = betDoc.counterpartyValidation; 
+		pendingTe = betDoc.pendingTe;
+		pendingWinner = betDoc.pendingWinner; 
 
 		if ( selectedAction === "acceptBet" && betDoc.counterpartyId.toString() === req.session.accountId) { 
 		    cpAccept = true; 
-		    pendingBet = false; 
+		    pendingIa = false; 
 		    openBet = true; 
 		} 
 		
 		if ( selectedAction === "rejectBet" && betDoc.counterpartyId.toString() === req.session.accountId) { 
 		    cpReject = true;
-		    pendingBet = false; 
+		    pendingIa = false; 
 		    openBet = false;
 		    closedBet = true; 
 		} 
 		
+		/* 
+		 * Implementation note: 
+		 * --------------------
+		 * 2 actions 
+		 * 1. Set the appropriate field (authorTeAccept / counterpartyTeAccept ) 
+		 *    to true depending on the current user
+		 * 2. If one party has already triggered termination, close the bet 
+		 * 
+		 */ 
+
+
+
+
+
 		if ( selectedAction === "acceptTe" && betDoc.openBet === true ) {
-		    console.log('~/routes/accounts | post/bets/:id | betDoc.authorId, req.session.Id' ); 
+		    
 		    if ( betDoc.authorId.toString() === req.session.accountId ){ 
 			aTeAccept = true;
 			if ( betDoc.counterpartyTeAccept ) {
@@ -242,14 +271,6 @@ module.exports = function(app, models){
 		} 
 		
 		if ( selectedAction === "acceptWinner" ) { 
-		    var curUserIsAuthor, curUserIsCp; 
-		    curUserIsAuthor = curUserIsCp = false; 
-		    if ( betDoc.authorId.toString() === req.session.accountId ) { 
-			curUserIsAuthor = true; 
-		    }
-		    if ( betDoc.counterpartyId.toString() === req.session.accountId ){ 
-			curUserIsCp = true; 
-		    }
 		    if ( betDoc.authorValidation &&
 			 !betDoc.counterpartyValidation && 
 		    	 curUserIsCp ) { 
@@ -272,7 +293,7 @@ module.exports = function(app, models){
 		models.Account.findByIdAndUpdateBet(betId, 
 						    {$set:{counterpartyAccept: cpAccept, 
 							   counterpartyReject: cpReject, 
-							   pendingBet: pendingBet, 
+							   pendingInitialApproval: pendingIa, 
 							   openBet: openBet, 
 							   closedBet: closedBet,
 							   authorTeAccept: aTeAccept,

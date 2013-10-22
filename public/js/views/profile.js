@@ -50,11 +50,6 @@ function(SocialNetView,
 		   
 		   userBetCollection.fetchMany( this.model.get('bets') ).then(function( c ) { 
 		       
-
-		       var pendingBets = c.where({pendingBet: true}); 
-		       var pendingHtml = (new BetTableView( {betArray: pendingBets} )).render().el; 
-		       $(pendingHtml).appendTo('#pendingBetList');
-
 		       var openBets = c.where({openBet: true});
 		       var openHtml = (new BetTableView( {betArray: openBets} )).render().el; 
 		       $(openHtml).appendTo('#openBetList');
@@ -63,7 +58,19 @@ function(SocialNetView,
 		       var closedHtml = (new BetTableView( {betArray: closedBets} )).render().el; 
 		       $(closedHtml).appendTo('#closedBetList');
  
+		       var pendingInitialApproval = c.where({pendingInitialApproval: true}); 
+		       var pendingIaHtml = (new BetTableView( {betArray: pendingInitialApproval} )).render().el; 
+		       $(pendingIaHtml).appendTo('#pendingInitialApproval');
 		       
+		       var pendingTe = c.where({pendingTe: true}); 
+		       var pendingTeHtml = (new BetTableView( {betArray: pendingTe} )).render().el; 
+		       $(pendingTeHtml).appendTo('#pendingTe');
+
+		       var pendingWinnerValidation = c.where({pendingWinner: true}); 
+		       var pendingWinHtml = (new BetTableView( {betArray: pendingWinnerValidation} )).render().el; 
+		       $(pendingWinHtml).appendTo('#pendingWinnerValidation');
+
+
 		   });
 		   
 	       }
