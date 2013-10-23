@@ -108,13 +108,14 @@ module.exports = function(config, mongoose, nodemailer) {
     };
 
 
-    var findByString = function(searchStr, callback) {
+    var findByString = function(searchStr, betSize, callback) {
 	
 	Account.findOne( { username: searchStr }, function(err, doc ){ 
 	    if( err ) {
 		console.log('error looking up name'); 
 	    } else { 
-		// code here callback
+		console.log('findByString triggered'); 
+		callback(doc, betSize); 
 	    }
 	});
     };

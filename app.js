@@ -61,7 +61,7 @@ app.post('/contacts/find', function(req, res) {
     return;
   }
 
-  models.Account.findByString(searchStr, function onSearchDone(err,accounts) {
+  models.Account.findByString(searchStr, null, function onSearchDone(err,accounts) {
     if (err || accounts.length == 0) {
       res.send(404);
     } else {

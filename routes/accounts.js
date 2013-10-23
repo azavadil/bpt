@@ -280,22 +280,50 @@ module.exports = function(app, models){
 		}
 		
 		
-		if ( selectedAction === "acceptWinner" ) { 
+		if ( selectedAction === "acceptWinner" ) {
+		    var authorWin = betDoc.winner === betDoc.authorId ? true : false; 
+		    var winnerName = authorWin ? betDoc.authorName : betDoc.counterpartyName;
+		    var loserName = authorWin ? betDoc.counterpartyName : betDoc.authorName; 
+		    var amountWon = authorWin ? betDoc.counterpartyBet : betDoc.authorBet; 
+
+
+		    var updateWinner = function( acctDoc, bet ) {
+			acctDoc.numCompleteBets += 1; 
+			acctDoc.numWinningBets += 1;  
+			acctDoc.winningPercentage = acctDoc.numWinningBets/acctDoc.numCompleteBets;
+			acctDoc.accountBal += bet;  
+			acctDoc.save();
+		    };
+			
+    		    var updateLoser = function( acctDoc, bet ) {
+			acctDoc.numCompleteBets += 1; 
+			acctDoc.winningPercentage = acctDoc.numWinningBets/acctDoc.numCompleteBets;
+			acctDoc.accountBal -= bet;  
+			acctDoc.save();
+		    }
+
+		    models.Account.findByString( winnerName, amountWon, updateWinner ); 
+		    models.Account.findByString( loserName, amountWon, updateLoser ); 
+
 		    if ( betDoc.pendingWinner && curUserIsAuthor && !betDoc.authorValidation ){ 
 			aValidation = true;
 			openBet = false; 
 			closedBet = true; 
-			//TODO:UPDATE BETTING RECORD 
+			
 		    } 
 		    
-		    if ( betDoc.pendingWinner && curUserIsCP && !betDoc.counterpartyValidation )  { 
+		    if ( betDoc.pendingWinner && curUserIsCp && !betDoc.counterpartyValidation )  { 
 			cpValidation = true;
 			openBet = false; 
 			closedBet = true;
-			//TODO: UPDATE BETTING RECORD
 		    }
 		}
-     		       
+     		
+		if( selectedAction === "rejectWinner" ){ 
+		    //TODO: CODE HERE
+		}
+
+
 
 		models.Account.findByIdAndUpdateBet(betId, 
 						    {$set:{counterpartyAccept: cpAccept, 

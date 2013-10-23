@@ -122,17 +122,23 @@
     <% } %>    
 
 
-    
-    <tr> 
-      <td>Winner</td>
-      </td>Foo</td>  
-    </tr> 
 
-    <tr>
-      <td>Winner</td>
-      <td>Pending </td> 
-    </tr> 
-      <% if ( declareWinnerButton ) { %> 
+    <% if ( model.winner ) { %>
+    <%   var winnerName;     %> 
+    <%   winnerName = model.winner === model.authorId ? model.authorName : model.counterpartyName; %> 
+      
+      <tr> 
+        <td>Winner</td>
+        <td><%= winnerName %></td>  
+     
+    
+    <% } else { %>    
+      <tr>
+        <td>Winner</td>
+        <td>Pending</td> 
+   <% } %> 
+  
+    <% if ( declareWinnerButton ) { %> 
       <td> 
 	<select class="declareWinnerDropdown">
 	  <option value="" disabled="disabled" selected="selected">Declare Winner</option> 
@@ -140,8 +146,9 @@
 	  <option><%= model.counterpartyName %></option> 
 	</select> 
       </td> 
-      <% } %>
-  
+    </tr> <!-- winner pending row -->  
+    <% } %>
+    
 
     <% if ( acceptWinnerButton ) { %> 
     <td> 
@@ -153,26 +160,16 @@
       <td> 
         <button class="rejectWinnerButton">Reject Winner</button>
       </td>  
+    </tr> <!-- winner pending row --> 
     <% } %>
  
-
  
 </tbody> 
 	
       
 
 
-  <div class="actionArea"> 
-  </div> 
- 
-  <div> 
+<div class="actionArea"> 
     
-      
-    
-  
-
-
-     
-  </div> 
 
 </div> 

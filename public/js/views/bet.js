@@ -181,6 +181,7 @@ define(['SocialNetView',
 	       }, 
 	       
 	       declareWinner: function(){ 
+		   var $responseArea = this.$('.actionArea');
 		   var winner = this.$('.declareWinnerDropdown').val();
 		   $.post('/bets/' + this.model.get('_id'), 
 			  {betId: this.model.get('_id'), 
@@ -197,11 +198,31 @@ define(['SocialNetView',
 	       }, 
 
 	       acceptWinner: function(){
-		   //code here
+		   var $responseArea = this.$('.actionArea');
+		   $.post('/bets/' + this.model.get('_id'), 
+			  {betId: this.model.get('_id'), 
+			   selectedAction: 'acceptWinner', 
+			  }, 
+			  function onSuccess() { 
+			      $responseArea.text('Winner accepted'); 
+			  }, function onError(){ 
+			      $responseArea.text('Action failed, retry');
+			  }
+			 );
 	       },
 	       
 	       rejectWinner: function(){ 
-		   //code here
+		   var $responseArea = this.$('.actionArea');
+		   $.post('/bets/' + this.model.get('_id'), 
+			  {betId: this.model.get('_id'), 
+			   selectedAction: 'rejectWinner' 
+			  }, 
+			  function onSuccess() { 
+			      $responseArea.text('Winner rejected'); 
+			  }, function onError(){ 
+			      $responseArea.text('Action failed, retry');
+			  }
+			 );
 	       }, 
 	       
 		   
