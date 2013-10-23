@@ -8,12 +8,18 @@
   <tbody>
 
      <% _.each(handicappers, function( handicapper ) { %>
-	
+     <%     var accountBal, winPercent, formatedBal, formatedWinPercent;            %> 
+     <%     accountBal = String(handicapper.get('accountBal'));                     %>
+     <%     winPercent = String(100*handicapper.get('winningPercentage'));          %> 
+     <%     formatedWinPercent = winPercent + "%";                                  %>     
+     
 
      <tr> 
+
+
 	<td><%= handicapper.get('username') %></td>
         <td><%= handicapper.get('accountBal') %></td>
-        <td><%= handicapper.get('winningPercentage') %></td>
+        <td><%= formatedWinPercent %></td>
         <td><a class="btn" href="#accounts/<%= handicapper.get('_id') %>">Full Player Profile</a></td>
      </tr>
     <% }); %>

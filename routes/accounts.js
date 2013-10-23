@@ -281,7 +281,7 @@ module.exports = function(app, models){
 		
 		
 		if ( selectedAction === "acceptWinner" ) {
-		    var authorWin = betDoc.winner === betDoc.authorId ? true : false; 
+		    var authorWin = betDoc.winner.toString() === betDoc.authorId.toString() ? true : false; 
 		    var winnerName = authorWin ? betDoc.authorName : betDoc.counterpartyName;
 		    var loserName = authorWin ? betDoc.counterpartyName : betDoc.authorName; 
 		    var amountWon = authorWin ? betDoc.counterpartyBet : betDoc.authorBet; 

@@ -30,8 +30,11 @@ function( Handicappers, hndListTemplate) {
 	    handicappers.fetch( { 
 		success: function( handicappers ) { 
 		    
+		    var sortedModels = _.sortBy( handicappers.models, function( model ) { 
+			model.get('accountBal'); 
+		    }); 
 		  
-		    var template = _.template(hndListTemplate, {handicappers: handicappers.models} ); 
+		    var template = _.template(hndListTemplate, {handicappers: sortedModels} ); 
 		    
 		    that.$el.html(template); 
 		}
