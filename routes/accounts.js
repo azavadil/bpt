@@ -308,14 +308,15 @@ module.exports = function(app, models){
 		    if ( betDoc.pendingWinner && curUserIsAuthor && !betDoc.authorValidation ){ 
 			aValidation = true;
 			openBet = false; 
-			closedBet = true; 
-			
+			closedBet = true;
+			pendingWinner = false; 
 		    } 
 		    
 		    if ( betDoc.pendingWinner && curUserIsCp && !betDoc.counterpartyValidation )  { 
 			cpValidation = true;
 			openBet = false; 
 			closedBet = true;
+			pendingWinner = false; 
 		    }
 		}
      		
