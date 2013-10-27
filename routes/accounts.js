@@ -322,6 +322,12 @@ module.exports = function(app, models){
      		
 		if( selectedAction === "rejectWinner" ){ 
 		    //TODO: CODE HERE
+		    if ( betDoc.pendingWinner ) { 
+			openBet = false; 
+			closedBet = true;
+			pendingWinner = false; 
+		    }
+		  
 		}
 
 
