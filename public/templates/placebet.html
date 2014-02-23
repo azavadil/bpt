@@ -1,51 +1,61 @@
 <h1>Place Bet</h1>
 
-<form>
-<fieldset>
-<legend>Bet details</legend>
-  <label>
-    Counterparty username:
-    <input type="text" name="counterparty" />
-  </label>
 
-  <label>
-    Bet Description:
-    <input type="text" name="betDescription" />
-  </label>
-
-  <label>
-    Reference index (include a clearly defined reference index that can be use to settle disputes):
-    <input type="text" name="referenceIndex" />
-  </label>
-
-  <label>
-    Termination Events (include a comma separated list of events that terminate the bet with no winner. E.g. player injury):
-    <input type="text" name="terminationEvent" />
-  </label>
-
-</fieldset>
-
-<fieldset>
-
-  <legend>Bet Amounts($)</legend>
-
-  <label>
-    Amount you win:
-    <input type="text" name="authorBet" />
-  </label>
-
-  <br />
-
-  <label>
-    Amount you lose:
-    <input type="text" name="counterpartyBet" />
-  </label>
-</fieldset>
+<div class="container-fluid">
 
 
-<p>
-  <input type="submit" value="Place Bet Now"/>
-</p>
+<form role="form">
+ <div class="form-group"> 
+
+     <legend>Bet details</legend>
+     <label for="counterpartyUsername">Counterparty username:</label> 
+       <input type="text" class="form-control" id="counterpartyUsername" name="counterparty" placeholder="Enter counterparty"/>
+    
+
+     <label for="betDescription">Bet Description:</label>
+       <input type="text" class="form-control" id="betDescription" name="betDescription" placeholder="Enter bet description"/>
+     
+
+     <label for="referenceIndex">
+       Reference index:
+     </label>
+     <button type="button" class="btn btn-primary btn-xs bpt-popover" id="bpt-popover" data-container="body" data-toggle="popover" 
+               data-placement="right" data-content="specify a reference index that can be use to settle disputes">Explanation</button>
+       <input type="text" class="form-control" id="referenceIndex" name="referenceIndex" placeholder="Enter reference index">
+
+
+
+   <label for="terminationEvent">
+     Termination Events:
+   </label>
+     <button type="button" class="btn btn-primary btn-xs bpt-popover" id="bpt-popover1" data-container="body" data-toggle="popover" 
+	     data-placement="right" data-content="(include a comma separated list of events that terminate the bet with no winner. E.g. player injury)">Explanation</button>
+       <input type="text" class="form-control" id="terminationEvent" name="terminationEvent" placeholder="Enter termination events"/>
+     
+
+   </div>
+   <br/>
+
+   <div class="form-group"> 
+
+     <legend>Bet Amounts($)</legend>
+
+     <label for="authorBet">Amount you win:</label>
+       <input class="form-control" type="text" name="authorBet" />
+     
+
+     <label for="counterpartyBet">Amount you lose:</label>
+       <input class="form-control" type="text" name="counterpartyBet" />
+
+   </div>
+
+   
+   <p>
+     <input class="btn btn-primary" type="submit" value="Place Bet Now"/>
+   </p>
 </form>
 
 <div id="actionArea"></div> 
+</div> 
+
+

@@ -1,12 +1,10 @@
-<div> 
+<div class="row"> 
   <table class="table table-striped"> 
 
     <thead> 
       <tr> 
 	<th>Description</th> 
 	<th>Value</th> 
-	<th>Action 1</th> 
-	<th>Action 2</th> 
       <tr> 
     </thead> 
 
@@ -18,19 +16,18 @@
 
       <tr>
 	<td>Counterparty</td>
-	<td><%= model.counterpartyName %></td> 
+	<td><%= model.counterpartyName %> 
 	
 	<% if ( acceptButton ) { %> 
-    	  <td> 
-	    <button class="acceptButton">Accept Bet</button>
-	  </td> 
+	    <a href="#" id="acceptLink"><small>Accept Bet</small></a>
 	<% } %> 
-    
+
+	
+            
 	<% if ( rejectButton ) { %> 
-       	  <td>
-	    <button class="rejectButton">Reject Bet</button> 
-	  </td> 
+	    <a href="#" id="rejectLink"><small>Reject Bet</small></button> 
 	<% } %>
+	</td>
       </tr> 
 
       <tr>
@@ -45,18 +42,15 @@
 
       <tr> 
 	<td>Termination Events ("TE")</td> 
-	<td><%= model.terminationEvent %></td>
-	<% if ( acceptTeButton ) { %> 
- 	  <td>
-	    <button class="acceptTeButton">Cancel for TE</button>
-	  <td> 
-        <% } %>
+	<td><%= model.terminationEvent %>
+	  <% if ( acceptTeButton ) { %> 
+	    <a href="#" id="acceptTeLink"><small>Cancel for TE</small></button>
+          <% } %>
 	
-	<% if ( rejectTeButton ) { %> 
-	  <td> 
-	    <button class="rejectTebutton">Reject TE Cancellation</button>
-	  </td>  
-	<% } %>
+	  <% if ( rejectTeButton ) { %> 
+	      <a href="#" id="rejectTeLink"><small>Reject TE Cancellation</small></button>
+	  <% } %>
+	</td>
        </tr> 
 
     <% if ( model.counterpartyAccept ) { %> 
@@ -122,6 +116,7 @@
     <% } %>    
 
 
+    <!-- If we already have a winner -->
 
     <% if ( model.winner ) { %>
     <%   var winnerName;     %> 
@@ -130,46 +125,39 @@
       <tr> 
         <td>Winner</td>
         <td><%= winnerName %></td>  
+      </tr> 
      
     
     <% } else { %>    
       <tr>
         <td>Winner</td>
         <td>Pending</td> 
-   <% } %> 
-  
+      </tr> 
+    <% } %> 
+
     <% if ( declareWinnerButton ) { %> 
+      <tr>
+	<td>
+	  <select class="declareWinnerDropdown">
+	    <option value="" disabled="disabled" selected="selected">Declare Winner</option> 
+	    <option><%= model.authorName %></option> 
+	    <option><%= model.counterpartyName %></option> 
+	  </select>
+        </td> 
+     </tr>
+    <% } %>
+    
+
+    <% if ( acceptWinnerButton && rejectWinnerButton) { %> 
+    <tr> 
       <td> 
-	<select class="declareWinnerDropdown">
-	  <option value="" disabled="disabled" selected="selected">Declare Winner</option> 
-	  <option><%= model.authorName %></option> 
-	  <option><%= model.counterpartyName %></option> 
-	</select> 
+       <a href="#" id="acceptWinnerLink"><small>Accept Winner</small></button>
+       <a href="#" id="rejectWinnerLink"><small>Reject Winner</small></button>
       </td> 
-    </tr> <!-- winner pending row -->  
+    </tr>
     <% } %>
     
 
-    <% if ( acceptWinnerButton ) { %> 
-    <td> 
-       <button class="acceptWinnerButton">Accept Winner</button>
-    </td> 
-    <% } %>
+  </tbody> 
+</div> 	
 
-    <% if ( rejectWinnerButton ) { %> 	
-      <td> 
-        <button class="rejectWinnerButton">Reject Winner</button>
-      </td>  
-    </tr> <!-- winner pending row --> 
-    <% } %>
- 
- 
-</tbody> 
-	
-      
-
-
-<div class="actionArea"> 
-    
-
-</div> 

@@ -1,7 +1,9 @@
 define(['SocialNetView', 
-	'text!templates/placebet.html'], 
+	'text!templates/placebet.html', 
+        'bootstrap'], 
        function(SocialNetView, 
-		placebetTemplate) {
+		placebetTemplate, 
+	        Bootstrap) {
 	   
 
 	   var PlaceBetView = SocialNetView.extend({
@@ -35,7 +37,12 @@ define(['SocialNetView',
 	       },
 
 	       render: function() {
-		   this.$el.html(placebetTemplate);
+		   
+		   var curTemplate = placebetTemplate; 
+		   
+		   this.$el.html(curTemplate);
+		   $('.bpt-popover').popover(); 
+
 	       }
 	   });
 	   

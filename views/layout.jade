@@ -1,11 +1,14 @@
 !!! 5
 html(lang="en")
   head
-    title Social Network
+    title Sports Book
     link(rel='stylesheet',href='/styles/styles.css')
-    link(rel='stylesheet',href='https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css')
-    script(src='https://netdna.bootstrapcdn.com/boostrap/3.1.0/js/bootstrap.min.js')      
+    link(rel='stylesheet',href='/styles/bootstrap.min.css')
+
   body
-    block content
+    #wrap
+      include partials/navigation
+      .container
+        block content
     
-    block scripts
+        block scripts

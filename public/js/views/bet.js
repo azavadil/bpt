@@ -99,13 +99,13 @@ define(['SocialNetView',
 	       el: $('#content'), 
 	       
 	       events: { 
-		   "click .acceptButton": "acceptBet", 
-		   "click .rejectButton": "rejectBet", 
-		   "click .acceptTeButton": "acceptTerminationEvent", 
-		   "click .rejectTeButton": "rejectTerminationEvent",
+		   "click #acceptLink": "acceptBet", 
+		   "click #rejectLink": "rejectBet",
+		   "click #acceptTeLink": "acceptTerminationEvent", 
+		   "click #rejectTeLink": "rejectTerminationEvent",
 		   "change .declareWinnerDropdown": "declareWinner", 
-		   "click .acceptWinnerButton": "acceptWinner", 
-		   "click .rejectWinnerButton": "rejectWinner"
+		   "click #acceptWinnerLink": "acceptWinner", 
+		   "click #rejectWinnerLink": "rejectWinner"
 	       }, 
 
 	       /*
@@ -120,66 +120,82 @@ define(['SocialNetView',
 		   console.log('~/public/js/views/bet.js | acceptBet' );  
 
 		   
-		   var $responseArea = this.$('.actionArea'); 
+
+		   var self = this; 
 		   $.post('/bets/' + this.model.get('_id'), 
 			  {betId: this.model.get('_id'), 
 			   counterpartyId: this.model.get('counterpartyId'), 
 			   selectedAction: 'acceptBet'
 			  }, 
-			  function onSuccess() { 
-			      $responseArea.text('Bet accepted'); 
-			  }, function onError(){ 
-			      $responseArea.text('Bet not accepted, retry');
-			  }
-			 ); 
+			  function() {
+			      self.$("#acceptLink").remove(); 
+			      self.$("#rejectLink").remove(); 
+			      var successMsg = "<div>Bet Accepted</div>"; 
+			      self.$el.append(successMsg);
+			      
+			  }).error(function (){
+			      var errorMsg = "<div>Bet not accepted, retry"; 
+			      self.$el.append(errorMsg);
+			  }); 
 	       }, 
 
 	       rejectBet: function(){ 
 		   console.log('~/public/js/views/bet.js | rejectBet' );  
 
-		   
-		   var $responseArea = this.$('.actionArea'); 
+		   var self = this; 
+	
 		   $.post('/bets/' + this.model.get('_id'), 
 			  {betId: this.model.get('_id'), 
 			   counterpartyId: this.model.get('counterpartyId'), 
 			   selectedAction: 'rejectBet'
 			  }, 
-			  function onSuccess() { 
-			      $responseArea.text('Bet rejected'); 
-			  }, function onError(){ 
-			      $responseArea.text('Bet not rejected, retry');
-			  }
-			 ); 
+			  function () {
+			      self.$("#acceptLink").remove(); 
+			      self.$("#rejectLink").remove(); 
+			      var successMsg = "<div>Bet rejected</div>"; 
+			      self.$el.append(successMsg); 
+			  }).error(function(){
+			      var errorMsg = "<div>Bet not rejected, retry</div>"; 
+			      self.$el.append(errorMsg); 
+			  }); 
 	       }, 
 	       
 	       acceptTerminationEvent: function(){
-		   var $responseArea = this.$('.actionArea'); 
+		   var self = this;
+
 		   $.post('/bets/' + this.model.get('_id'), 
 			  {betId: this.model.get('_id'), 
 			   counterpartyId: this.model.get('counterpartyId'), 
 			   selectedAction: 'acceptTe'
 			  }, 
-			  function onSuccess() { 
-			      $responseArea.text('Termination event accepted'); 
-			  }, function onError(){ 
-			      $responseArea.text('Termination event not accepted, retry');
-			  }
-			 ); 
+			  function() { 
+			      self.$("#acceptTeLink").remove(); 
+			      self.$("#rejectTeLink").remove(); 
+			      var successMsg = "<div>Termination event submitted</div>"
+			      self.$el.append(successMsg);
+			  }).error(function(){
+			      var errorMsg = "<div>Termination event not accepted, retry</div>"; 
+			      self.$el.append(errorMsg); 
+			  });
 	       }, 
 
 	       rejectTerminationEvent: function(){ 
-		   var $responseArea = this.$('.actionArea'); 
+		   var self = this; 
 		   $.post('/bets/' + this.model.get('_id'), 
 			  {betId: this.model.get('_id'), 
 			   counterpartyId: this.model.get('counterpartyId'), 
 			   selectedAction: 'rejectTe'
 			  }, 
-			  function onSuccess() { 
-			      $responseArea.text('Termination event accepted'); 
-			  }, function onError(){ 
-			      $responseArea.text('Termination event not accepted, retry');
-			  }
-			 );
+			  function() {
+			      self.$("#acceptTeLink").remove(); 
+			      self.$("#rejectTeLink").remove(); 
+			      var successMsg = "<div>Termination event accepted</div>"
+			      self.$el.append(successMsg); 
+
+			  }).error(function(){
+			      var errorMsg = "<div>Termination event not accepted, retry</div>"
+			      self.$el.append(errorMsg); 
+			  });
 	       }, 
 	       
 	       declareWinner: function(){ 
@@ -194,8 +210,7 @@ define(['SocialNetView',
 			      $responseArea.text('Winner declared'); 
 			  }, function onError(){ 
 			      $responseArea.text('Action failed, retry');
-			  }
-			 );
+			  }); 
 		 
 	       }, 
 
